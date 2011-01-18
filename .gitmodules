@@ -1,0 +1,6 @@
+[submodule "rote-3"]
+	path = rote-3
+	url = git://github.com/koo5/rote-3.git
+[submodule "src/demos/lemonized-pixel-city"]
+	path = src/demos/lemonized-pixel-city
+	url = git://github.com/koo5/lemonized-pixel-city.git

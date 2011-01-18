@@ -1,0 +1,8 @@
+ g++    -L/usr/lib -L/usr/X11R6/lib  -lutil -L/usr/local/lib   \
+ -L/usr/local/lib   -I/usr/include -I/usr/local/include -I./ \
+   -L/usr/X11R6/lib    \
+    -I/home/kook/s3d/include -I/usr/include/glib-2.0 \
+    -I/usr/lib/glib-2.0/include  -L/home/kook/s3d/lib -ls3d  \
+     fontedit.c 
+
+ 

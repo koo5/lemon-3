@@ -1,0 +1,38 @@
+/* set up the initial arrays of blots */
+static void setupBlots (struct nerverotstate *st,int which)
+{
+    switch (which)
+    {
+	/*
+	case -1: randomly change after a while*/ 
+	case 0:
+	    setupBlotsCube (st);
+	    break;
+	case 1:
+	    setupBlotsSphere (st);
+	    break;
+	case 2:
+	    setupBlotsCylinder (st);
+	    break;
+	case 3:
+	    setupBlotsSquiggle (st);
+	    break;
+	case 4:
+	    setupBlotsCubeCorners (st);
+	    break;
+	case 5:
+	    setupBlotsTetrahedron (st);
+	    break;
+	case 6:
+	    setupBlotsSheet (st);
+	    break;
+	case 7:
+	    setupBlotsSwirlyCone (st);
+	    break;
+	case 8:
+	case 9:
+	case 10:
+  	    setupBlotsDuo (st);
+	    break;
+    }
+}

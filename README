@@ -1,0 +1,14 @@
+sudo aptitude update
+sudo aptitude install libgl-dev libglu-dev libglut3-dev libpng-dev libxcomposite-dev libxdamage-dev libxrender-dev make cmake g++ libncurses-dev  git-core xclip pkg-config libcurl-dev libcurl
+cd src
+make
+./l
+
+#optional
+#sudo aptitude install <xmms/audacious>-dev
+#cd toys/spectrum-analyzer/<xmms/audacious>plugin
+#./configure
+#make 
+#sudo make install
+#go to xmms settings, visualizations, enable cat freq
+

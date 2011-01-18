@@ -1,0 +1,1255 @@
+2010-05-12  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Add spec file to tarball
+
+2010-05-12  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams-devel.spec: Fix spec file
+
+2010-05-12  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile: Update.
+
+2010-05-12  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile, README, mainpage.html, pstreams-devel.spec: Update
+	  version to 0.7.0 for release.
+
+2010-05-12  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Use new name for cvs2cl script.
+
+2010-05-12  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams-devel.spec: Add spec file from Fedora 12
+
+2010-03-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Test initial mode set correctly for ipstream.
+
+2010-03-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Improve documentation for semantics of overflow.
+
+2010-03-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Remove preprocessor check for Sun CC and define
+	  typedefs unconditionally.
+
+2010-03-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Document previous change to initial read source.
+
+2010-03-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Don't add pstdout to ipstream mode if pstderr given.
+	  Set initial mode correctly on open.  Bump version to 0.7.0 due to
+	  change in behaviour.
+
+2009-09-23  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Remove std qualifiers on FILE as <stdio.h> is included
+	  and not <cstdio>.
+
+2009-09-23  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Add 'check' target and make 'test' a synonym.
+
+2008-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Add optimization to CXXFLAGS to get uninitialized
+	  warnings from gcc.
+
+2008-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_minimum.cc: Replace 'whoami' with 'id -un' for Solaris
+	  portability.
+
+2008-11-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Follow GNU make conventions.
+
+2008-11-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Support DESTDIR and preserve timestamps, thanks to Till
+	  Maas.
+
+2008-09-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Bug 2118980: Use more portable UTF-32 as iconv target.
+
+2008-09-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Fix bug 2118980: generate dependency for test_pstreams
+
+2008-07-12  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Change capitalistion.
+
+2008-07-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Mention licence change!
+
+2008-07-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Tweak comments.
+
+2008-07-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Add example.
+
+2008-07-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Only show trunk in ChangeLog.
+
+2008-07-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Version to 0.6.0
+
+2008-07-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Fix typo.
+
+2008-07-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Combine rules, set VERS=0.6.0
+
+2008-07-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Release notes for 0.6.0
+
+2008-07-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* COPYING.LIB, Makefile, pstream.h, pstream_compat.h,
+	  test_pstreams.cc: Change licence to LGPLv3.
+
+2007-12-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Adjust copyright date.
+
+2007-12-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Get rid of CONDITIONAL_SLEEP.
+
+2007-12-16  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Remove extra tests left in from debugging.
+
+2007-12-16  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fill_buffer): Option to work in
+	  non-blocking mode.  (pstreambuf::showmanyc): New implementation
+	  using non-blocking fill_buffer.
+
+2007-12-16  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Test streambuf::in_avail() and wide chars.
+
+2007-07-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Fix missing qualification in example code (bug
+	  1754057 - thanks to Brian Ray)
+
+2006-08-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Replace memcpy/memmove with equivalent char_traits
+	  operations.
+
+2006-07-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Update copyright year.
+
+2006-07-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::empty_buffer()): Adjust buffer on
+	  incomplete writes.  (pstreambuf::write(),pstreambuf::read()):
+	  Adjust return value for wide chars.
+
+2006-07-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fill_buffer()): Only call rbuffer() once.
+
+2006-07-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Remove misleading comments, there are worse problems
+	  when sizeof(char_type)!=1
+
+2006-07-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::showmanyc()): Fix overflow error.
+
+2006-07-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Typo in comment.
+
+2006-06-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Support Sun CC compiler (bug 1509533)
+
+2006-01-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::showmanyc()): Adjust result for
+	  sizeof(char_type) > 1
+
+2006-01-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Repeat file descriptor tests for vector open.
+	  Remove assumptions about what fd values will be found because
+	  pstreambuf can use extra pipes.
+
+2006-01-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Update copyright date and fix signed/unsigned
+	  comparison warning.
+
+2005-09-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Fix incorrect test numbering, caused by
+	  unintended template specialisations being created.  Fix by
+	  keeping the counters with the labels. (Bug 650883)
+
+2005-09-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Signal handler must have C linkage.
+
+2005-09-05  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Use typedef name.
+
+2005-09-05  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Use execl("/bin/sh", "sh", "-c", cmd) instead of
+	  execlp("sh", "sh", "-c", cmd) to avoid executing some other "sh"
+	  found in PATH (potential security hole).  Version to 0.5.3 as
+	  this could change the behaviour of some programs.
+
+2005-09-05  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Update fd leak test to match new behaviour
+	  (read pipes not closed right away).  Test signal safety and
+	  exception-safety.
+
+2005-09-05  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Delay cleaning up read buffers and pipes so that it is
+	  still possible to read from the pipes after the child has exited.
+	  Previously, sending peof could reap a zombie child and discard
+	  any unread data in the read buffers and/or pipes. Now the child
+	  is still reaped but the unread data is still available (bug
+	  1163001).  Clarify docs for wait() and exited().
+
+2005-09-04  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::showmanyc): Fix broken logic (bug
+	  1232564).
+
+2005-07-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Apply improvements suggested by Antonio S. de A.
+	  Terceiro.
+
+2005-07-16  Jonathan Wakely  <pstreams@kayari.org>
+
+	* COPYING.LIB: Update FSF postal address.
+
+2005-07-16  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Return number of failed tests from main().
+
+2005-07-16  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Update copyright date to 2005.
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Fix typo.
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Release notes for 0.5.2.
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Add note about performance.
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Update version and rename "packages" target to more
+	  conventional "dist".
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Update version number and use KBD.man_page style.
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::showmanyc()):  New function to make
+	  streambuf::in_avail() work when FIONREAD supported by ioctl().
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Conditionally sleep depending on platform.
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Add test for streambuf::in_avail().
+
+2005-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Use LDFLAGS when linking so it can be overridden on
+	  command line.
+
+2005-03-16  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::write()): Take pointer to const data.
+
+2004-12-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Workarounds to make tests pass on Darwin (don't
+	  assume next fd is 3).
+
+2004-12-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Workarounds to make tests pass on Solaris.
+
+2004-10-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Doxygen comment corrections and formatting fixes.
+
+2004-10-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Added install target and INSTALL_PREFIX variable.
+
+2004-10-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::open): Use close-on-exec pipe to detect
+	  execvp() failure.
+
+2004-10-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (close_fd_array): Use template argument deduction to
+	  find array length.  (close_fd): New helper to close single file
+	  descriptors.
+
+2004-10-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Add tests for is_open() on bad commands.
+
+2004-10-18  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Use constant for array length. Formatting fixes.
+
+2004-10-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Fix URL of FAQ.
+
+2004-10-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile, README: Don't generate ChangeLog if no CVS/Root file.
+	  Note about version numbers.
+
+2004-10-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile: Update with "doxygen -u".
+
+2004-10-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* .cvsignore: Add MANIFEST.
+
+2004-10-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile, README, mainpage.html, pstream.h, test_pstreams.cc:
+	  Version to 0.5.0
+
+2004-10-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile: Add INLINE_INHERITED_MEMB.
+
+2004-10-03  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Whitespace change to comments.
+
+2004-10-03  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Tidy up docs, be more consistent and remove
+	  duplication.
+
+2004-10-03  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Cast execlp() sentinel to avoid problems where
+	  sizeof(int) != sizeof(void*).  Use NULL instead of 0 where null
+	  pointer intended.
+
+2004-10-01  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Ensure ipstreams always open for reading and opstreams
+	  always open for writing.  Inherit from pstreams and use pmode
+	  names not ios_base::openmode names.
+
+2004-09-29  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: POSIX sed doesn't support "-" to mean stdin,
+	  use "cat -" instead.
+
+2004-09-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Use argv_type typedef.
+
+2004-09-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreams::argv_type): New typedef for argument
+	  vector.  (pstreams::fd_type,pstreams::fd_t): Rename fd_t to
+	  fd_type.
+
+2004-09-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pbsz,bufsz): Use enums for constants so no storage
+	  needed.
+
+2004-09-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Test pstreambuf::exited() behaves sensibly.
+
+2004-09-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::exited): Return sensible values, bug
+	  #1014183.
+
+2004-09-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Use "-" in tests, "/dev/stdin" may not be
+	  mounted (thanks to Jez Bromley).
+
+2004-09-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstream_common::pmode): Remove unnecessary typedef.
+	  (pstreambuf::fopen): Surround assignments in parentheses.
+
+2004-09-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Use /etc/hosts instead of /etc/motd, which may
+	  not exist.
+
+2004-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Improve comment.
+
+2004-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Add note about alpha compiler, thanks to Jez Bromley.
+
+2004-06-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Qualify FILE and size_t with std:: namespace. Include
+	  stdio.h for FILE.
+
+2004-06-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README, pstream.h: (pstreambuf::read_err()): use
+	  switch_read_buffer() to update stream position.
+	  (PSTREAMS_VERSION()): increment to 0.49, should make new release.
+
+2004-06-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: New test for read position.
+
+2004-06-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Add extra testing that reading from terminated
+	  process fails.
+
+2004-06-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Fix a test, add more tests for kill()/wait(),
+	  test for resource leaks.
+
+2004-06-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::wait()): Fix resource leaks when wait()
+	  called before close().  (pstreambuf::sync()): Use exited() to
+	  avoid writing to exited process.
+
+2004-06-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Change formatting of comment.
+
+2004-05-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Make some vars const.
+
+2004-05-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Fix buggy test that raised SIGPIPE on FreeBSD:
+	  Stream was opened with all 3 pipes but process didn't read from
+	  stdin.  By the time sync() was called the process had exited and
+	  closed its stdin.
+
+2004-05-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README, mainpage.html: Document that seeks will fail.
+
+2004-05-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Clear stream state after reading to EOF.
+	  Include stack trace of FreeBSD failure.  Add tests to check that
+	  seeking fails.
+
+2004-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: More release notes.
+
+2004-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Add release notes for 0.48.
+
+2004-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html, pstream.h, pstream_compat.h: Append "_SEEN" to
+	  include guard macros.  Version to 0.48.
+
+2004-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_minimum.cc: Add some TODOs.
+
+2004-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Fix typo.
+
+2004-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Qualify more dependent names, needed for Comeau
+	  compiler.
+
+2004-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Fix punctuation in some comments, no code changes.
+
+2004-04-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Update version number.
+
+2004-04-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::read(char&)): Remove redundant function
+	  overload.  (pstreambuf::write(char&)): Remove redundant function
+	  overload.  (pstream_common::open()): Make non-virtual and rename
+	  to do_open().  (pstream_common): Make various functions and
+	  typedefs protected not public.  (rpstream): Define all functions
+	  in class body.  (PSTREAMS_VERSION): Increase to 0.47.
+
+2004-03-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream_compat.h, test_compat.cc: Merge with old_popen-branch.
+
+2004-03-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream_compat.h: Merge changes from old_popen-branch.
+
+2004-03-28  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile, mainpage.html, pstream.h, test_minimum.cc: (peof()):
+	  Use dynamic_cast not static_cast.  Version to 0.46.
+
+2004-03-23  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Version to 0.45.
+
+2004-03-23  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::open()): Use ::_exit() instead of
+	  std::exit().	(pstreambuf::fill_buffer()): Use local vars instead
+	  of a cast and a temporary.  (peof()): Add missing inline keyword.
+	  Version to 0.45, reformat some long lines.
+
+2004-03-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf:empty_buffer()): More type fixes, 64-bit
+	  pointer bigger than int.  Update copyright date, fix comments and
+	  version to 0.44.
+
+2004-03-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (basic_pstreambuf::xsputn()): Qualify std::memcpy.
+	  (basic_pstreambuf::fill_buffer()): Fix problem with different
+	  sized types.
+
+2004-03-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: (clean): New target to remove test binaries.
+
+2004-03-17  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_minimum.cc: Don't use typedef names for explicit
+	  instantiation.
+
+2004-02-04  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc, pstream.h: (basic_pstreambuf): Default Traits
+	  to std::char_traits<CharT>.
+
+2004-01-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Add -W for extra warnings.
+
+2003-09-04  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Don't use type-def names for explicit
+	  instantiations of templates.	(test_type()): Remove names of
+	  unused parameters.
+
+2003-09-04  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Qualify basic_streambuf members with "this->".
+
+2003-07-18  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: More doxygen.
+
+2003-07-18  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Minor doxygen improvements.
+
+2003-07-18  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile: Remove rpstream.h
+
+2003-04-28  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream_compat.h: Fix call to base class ctor for bidirectional
+	  pstream.
+
+2003-04-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile, test_pstreams.cc: Compile test_pstreams with -pedantic
+	  and fix missing const qual.
+
+2003-03-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Update copyright year.
+
+2003-03-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* INSTALL: Remove reference to old rpstream.h file.
+
+2003-03-11  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Fix failing tests, eofbit is set when getline()
+	  reaches EOF.
+
+2003-03-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Use more portable arguments to tr, works for
+	  Solaris now.
+
+2003-03-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc, test_minimum.cc: Explicitly instantiate all
+	  template classes in both test programs.
+
+2003-03-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_minimum.cc: Don't #include rpstream.h, file removed.
+
+2003-03-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile, pstream.h, rpstream.h, test_pstreams.cc: Move rpstream
+	  definition into pstream.h and remove rpstream.h
+
+2003-03-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (streambuf_type): remove unused typedef from concrete
+	  stream classes.
+
+2003-03-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Remove TEST_RPSTREAM macro and always test
+	  rpstreams.
+
+2003-03-05  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Fix typo in sed command.
+
+2003-03-05  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h, rpstream.h: Qualify dependent names with "this->" to
+	  delay lookup.
+
+2003-02-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* rpstream.h: (rpstream::rpstream()): Remove redundant call to
+	  std::basic_ios::init().
+
+2003-02-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstream_common::open()): Use "this->" to prevent
+	  lookup finding ::setstate.
+
+2003-02-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h, rpstream.h: (pstream_common::buf_): Add using decls to
+	  access buf_ in derived class.  (rpstream::pmode): Make typedef
+	  public, matches other classes.
+
+2002-12-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Solaris sh(1) exit status is 1 when command not
+	  found (POSIX says 127).
+
+2002-12-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Improve regex so empty lines prefixed with
+	  STDIN.
+
+2002-12-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Fix some bugs in the tests due to portability
+	  issues.
+
+2002-12-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* INSTALL, README: Mention that Makefile doesn't work on Solaris
+	  (bug #650887)
+
+2002-12-03  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Document that I/O is buffered now.
+
+2002-11-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Add tests for rpstream.
+
+2002-11-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Version 0.42, fully buffered now.
+
+2002-11-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Version to 0.42, all I/O buffered.  Move static
+	  constants into common base.  Replace take_from_buf_ and char_buf_
+	  with wbuffer_ and two rbuffer_ arrays.  Remove take_from_buf(),
+	  char_buf(), uflow().	Add rbuffer(), switch_read_buffer(),
+	  fill_buffer(), create_buffers(), destroy_buffers().  read() and
+	  write() use multibyte strings now.
+
+2002-11-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* COPYING.LIB, COPYING: Rename COPYING to COPYING.LIB
+
+2002-10-23  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Formatting changes: removed some braces, moved some
+	  functions.
+
+2002-10-23  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (init_rbuffers()): New function called at construction
+	  to zero arrays.  Fix bad variable name from copy'n'paste error.
+
+2002-10-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h, rpstream.h: Rename pstream_base class template to
+	  pstream_common.
+
+2002-10-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Increase version number to match CVS HEAD.
+
+2002-10-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::readerr(bool)): Use ternary op for
+	  conditional, easier to read.
+
+2002-10-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Remove verbose "this->" from member function calls.
+
+2002-10-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* rpstream.h: Fix bad variable name from copy'n'paste error.
+
+2002-09-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Add buffering for writes. Currently disabled.
+
+2002-09-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Notes on new wait(), exited() and status() members.
+
+2002-09-22  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Tidy up calls totest functions, use
+	  check_pass/check_fail where possible.  Remove block of old,
+	  unused code.
+
+2002-09-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: New wait()-related functions are standard on
+	  pstreambuf now.  Remove unnecessary static_casts.
+
+2002-09-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h:
+	  (pstreambuf::wait(),pstreambuf::exited(),pstreambuf::status()):
+	  Use new functions.  Version to 0.40
+
+2002-09-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* rpstream.h: Fix typo in comment.
+
+2002-09-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Test pstreambuf::wait(), fixes last failure.
+
+2002-09-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstream_base::rdbuf()): Return pointer to stream
+	  buffer.  (pstreambuf::wait()): Experimental, -DPSTREAMS_WAIT.
+	  Wait for child exit.	(pstreambuf::exited()): Experimental,
+	  -DPSTREAMS_WAIT. Check for child exit.  Documentation
+	  improvements.
+
+2002-09-14  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: New variables to make it easier to give extra options
+	  to g++
+
+2002-09-10  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile, test_minimum.cc: Fix test_minimum and run from Makefile
+	  again.
+
+2002-09-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Give shell time to exit on bad command and
+	  don't write (causes SIGPIPE).
+
+2002-09-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Fix missing '$' in shell cmd.
+
+2002-09-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Lots of new and improved tests.
+
+2002-09-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Mention kill() function.
+
+2002-09-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fork()): Save errno instead of printing
+	  error message.  (pstreambuf::kill()): New function to send a
+	  signal to child.  (pstreambuf::error(),pstreambuf::error_):
+	  Report errno from system calls.
+	  (pstreambuf::status(),pstreambuf::status_): Report exit status of
+	  child process.  (pstreambuf::peof(),peof): New function and
+	  manipulator to close pstdin pipe.  (close_fd_array()): Make
+	  non-member.  (iostream,cstring): Remove unnecesssary headers.
+	  Version to 0.39
+
+2002-09-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* .cvsignore: Ignore lots of files I have in my sandbox.
+
+2002-09-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: (docs): Automatically update version number in
+	  mainpage.html (OPTIM): New variable, can be overridden on command
+	  line.
+
+2002-08-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_minimum.cc, test_pstreams.cc: Move standard headers to
+	  ensure pstream.h #incudes everything it needs.
+
+2002-08-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: Document errno=ESPIPE side effect of pstreambuf::fopen().
+
+2002-08-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fork(),pstreambuf::open()): Save errno
+	  instead of reporting to stderr.  (pstreambuf::error_,
+	  pstreambuf::error()): New member for errors from sys calls.
+	  (pstreambuf::open(string, vector)): Make copies of args.
+	  (pstreambuf::close()): Don't use WNOHANG, wait for child to
+	  finish.  (close_fd_array()): Make non-member, doesn't need
+	  special privileges.  (PSTREAMS_VERSION): Increment to 0.39
+
+2002-08-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* .cvsignore: Ignore test binaries
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::rpipe(which)): Unnecessary enum keyword
+	  confuses Doxygen
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Version to 0.38 (tag RELEASE_0_38)
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README, test_pstreams.cc: Revert pstreambuf::fopen() to using
+	  FILE* parameters. Test properly.
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fopen()): Revert to using FILE*s - it
+	  works now  :-)
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Version to 0.37
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README, pstream.h, test_pstreams.cc: (pstreambuf::fopen()):
+	  Expose file descriptors, not FILE*s as fdopen() fails.
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (out(),err()): Move from opstream to ipstream (were on
+	  wrong class!) (pstreambuf::fopen()): Fix stupid copy'n'paste
+	  error, used same variable 3 times
+
+2002-08-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Use sed not cat for better test.
+
+2002-08-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Add test for REDI_EVISCERATE_PSTREAMS mode.
+
+2002-08-19  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fopen): Use size_t for return value, not
+	  pmode; (pstreambuf::rpipe): Add missing definition of overloaded
+	  function.
+
+2002-07-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstream_base::streambuf_type): Make protected so
+	  subclasses can access.
+
+2002-07-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: (distro): Remove target, didn't work right anyway.
+	  (MANIFEST): New target for list of files in releases.
+
+2002-07-24  Jonathan Wakely  <pstreams@kayari.org>
+
+	* COPYING, INSTALL, Makefile, README, mainpage.html, pstream.h,
+	  pstream_compat.h, rpstream.h, test_pstreams.cc:
+	  (basic_pstreambuf::fork): Close other ends of pipes after
+	  dup2'ing them.  Relicense under LGPL.  Write stuff in README and
+	  INSTALL.
+
+2002-05-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fork()): Open all pipes when pmode
+	  specifies more than one.
+
+2002-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstream_base::~pstream_base()): Make pure virtual so
+	  class is abstract.
+
+2002-04-30  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Typo in comment.
+
+2002-04-29  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf): make copy ctor and operator= private
+	  again (oops) Some more doxygen comments.
+
+2002-04-29  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (REDI_EVISCERATE_PSTREAMS): Macro to activate evil
+	  member functions.  (pstreambuf::fopen()): Add evil function to
+	  expose FILE pointers.  (pstream_base::fopen()): Add function to
+	  call evil function on streambuf
+
+2002-04-29  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::buf_read_src): Give enum a name.
+	  (pstreambuf::rpipe()): Add overload of function.  (pstreambuf):
+	  Make private member functions protected.  #include <cstring> and
+	  add std:: to calls to strerror() Version to 0.35
+
+2002-04-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pstreambuf::fdclose()): Rename to close_fd_array(),
+	  describes purpose better
+
+2002-04-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Disable execution of test_minimum, doesn't work. Still
+	  compile it though.
+
+2002-04-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html: Add link to pstreams home page.
+
+2002-04-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* mainpage.html, pstream.h, pstreams.html: Replace pstreams.html
+	  with mainpage.html and remove lots of text that is more relevant
+	  to PStreams home page than to the API reference.
+
+2002-04-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Correct credit for ChildReader class.
+
+2002-04-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Add a space
+
+2002-04-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Link to archives of latest version and older
+	  (maybe more stable?) version.
+
+2002-04-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* README: brief README file (far too brief)
+
+2002-04-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Add rpstream.h to SOURCES
+
+2002-04-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* INSTALL: Mention "make docs"
+
+2002-04-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile: Add Id keyword
+
+2002-04-26  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: More stupid typos
+
+2002-04-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h, pstreams.html, rpstream.h: (pstreambuf::fork()): Swap
+	  pstdin and pstdout AGAIN!
+
+2002-04-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h, pstreams.html, rpstream.h, test_minimum.cc: Fix
+	  several stupid typos and copy&paste errors. Compiles now. Fails
+	  tests.
+
+2002-04-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: Remove options that aren't available in g++ 3.1
+
+2002-04-25  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile, pstream.h, pstreams.html, rpstream.h: (pstream_base):
+	  New base class providing common functionality.  (rpstream): Move
+	  restricted pstream class to separate file, rpstream.h Up version
+	  to 0.32 and update docs.
+
+2002-04-24  Jonathan Wakely  <pstreams@kayari.org>
+
+	* INSTALL: New file giving installation instructions (such as they
+	  are)
+
+2002-04-21  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (rpstream::pmode, rpstream::istream_type): Add
+	  required typename keyword.
+
+2002-04-20  Jonathan Wakely  <pstreams@kayari.org>
+
+	* .cvsignore, Makefile, pstream.h, pstreams.html, test_bidip.c,
+	  test_minimum.cc, test_pstreams.cc: Merge with
+	  replace_popen-branch
+
+2002-01-28  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile: (OUTPUT_DIRECTORY): change absolute path to relative
+
+2002-01-28  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Add required typename specifiers
+
+2002-01-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* .cvsignore: New file
+
+2002-01-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* AUTHORS: New file
+
+2002-01-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_bidip.c, test_minimum.cc: New tests
+
+2002-01-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Use HTML entity for ampersands in URIs
+
+2002-01-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: Test writing to closed steam
+
+2002-01-27  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: (test_bidip, test_minimum): Add new tests (distro): Use
+	  DISTFILES variable
+
+2002-01-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (read(),write()): Fix stupid mistake where int_type
+	  used instead of char_type (read(),write()): Overloads for writing
+	  character sequences Version to 0.17
+
+2002-01-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Refer to doxygen docs in usage secion.  Note about
+	  upcoming version.
+
+2002-01-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Doxyfile: New file.
+
+2002-01-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreamconf.h: Removed file as it is not used anywhere.
+
+2002-01-09  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (istream,ostream): Add required headers.
+	  (basic_pstreambuf::open): Fix typo.  Version to 0.16
+
+2002-01-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (open,close): Add error checking.	Version to 0.15
+
+2002-01-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Formatting changes, moved all function defs and docs
+	  out of class body.  Version to 0.14
+
+2002-01-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (basic_pstream): Fix missing std:: qualifiers.
+
+2002-01-08  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (openmode2str): Add inline keyword to prevent multiple
+	  definitions.
+
+2002-01-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h, pstream_compat.h: (BACK_COMPAT): Move non-standard
+	  versions from pstream.h to pstream_compat.h
+
+2002-01-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (pbackfail): Fix missing '!' in condition.
+	  (basic_pstream): Fix typos in ctor/dtor names.  (command_,buf_):
+	  Make protected member variables private in stream classes.
+	  (string,ios_base): remove typedefs and explicitly qualify each
+	  use with std:: (openmode2str): Make non-member function.
+	  (REDI_PSTREAMS_POPEN_USES_BIDIRECTIONAL_PIPE): only define if
+	  !defined Add comments for Doxygen.  Version to 0.12
+
+2002-01-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Minor formatting change.
+
+2002-01-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: (test): Slight changes to test targets.
+
+2002-01-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* test_pstreams.cc: New file.
+
+2002-01-07  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (command(),command_): Moved members from streambuf
+	  class to stream classes.  (read(),write()): Check for null FILE*
+	  to prevent segfaults.
+
+2001-12-31  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Added description and keywords tags for search
+	  engines and a TODO.
+
+2001-12-31  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (command): member function added to all classes.
+	  minor format and comment changes
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: (ChangeLog) new target
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* Makefile: New file
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Correct version number to 0.11
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: (MODE_MASK) remove this constant, only used in one
+	  place.  (BACK_COMPAT GCC_BACK_COMPAT) #defines for backward
+	  compatible versions, standard conforming version now default.
+	  Update version to 0.11
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Updated to cover version 0.11 Validated HTML and
+	  CSS.
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Updated version number to 0.10
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Updated documentation.
+
+2001-12-15  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Added standard-conforming versions of (i|o|)pstream
+	  classes.
+
+2001-12-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreamconf.h: New file, currently unused.
+
+2001-12-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstreams.html: Update to describe v0.02 Add usage section.
+
+2001-12-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* pstream.h: Move functionality into class pstreambase.  Added
+	  pstream for bidirectional IO.
+
+2001-12-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* images/pstreams1.png: Added file back, with -kb option for binary
+	  file.
+
+2001-12-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* images/pstreams1.png: Removed file to re-add it with -kb binary
+	  option.
+
+2001-12-13  Jonathan Wakely  <pstreams@kayari.org>
+
+	* COPYING, pstream.h, pstreams.html, images/pstreams1.png: Initial
+	  revision
+
