@@ -151,7 +151,7 @@ xy drawchar(xy lok, unsigned int i)
 	}
     }
     spillit(lok,"ZZZ~~~~ZZZ~~Z~~Z");
-    logit("unknown char: %u",i);
+    clogit("unknown char: %u",i);
     nlok.x+=26;
     return nlok;
 }

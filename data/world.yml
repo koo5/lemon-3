@@ -11,23 +11,23 @@
       Class: v3d
       x: 0
       y: 0
-      z: -11626.5
+      z: -11680.3
     spin:
       Class: v3d
       x: 0
       y: 0
-      z: -0
+      z: 0
     s:
       Class: v3d
-      x: 1
-      y: 1
-      z: 1
-  rotx: 1.77094e-36
+      x: 5
+      y: 4
+      z: 5
+  rotx: -4479.17
   roty: 0
-  rotz: 72154
-  rx: 2.41149e-41
+  rotz: 81830.1
+  rx: -1.51992e-07
   ry: 0
-  rz: 1.8
+  rz: -1.51992e-07
 -
   Class: face
   terminal:

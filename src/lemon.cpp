@@ -88,8 +88,12 @@ v3d cam;
 v3d look;
 v3d cr;
 
+void clogit(const char * iFormat, ...);
 void slogit(const char * iFormat, ...);
-void logit(const char * iFormat, ...);
+void logit(const char  * iFormat, ...);
+void clogit(string       iFormat, ...);
+void slogit(string       iFormat, ...);
+void logit(string        iFormat, ...);
 
 #include "../gltext.c"
 
@@ -330,6 +334,40 @@ void slogit(const char * iFormat, ...)
     if(loggerface)
 	loggerface->slogit(s);
 }
+void slogit(string iFormat, ...)
+{
+    char* s=(char*)malloc(101);
+    va_list argp;
+    va_start(argp, iFormat);
+    vsnprintf(s,101,iFormat.c_str(), argp);
+    s[100]=0;
+    va_end(argp);
+    if(loggerface)
+	loggerface->slogit(s);
+}
+
+void clogit(const char * iFormat, ...)
+{
+    char* s=(char*)malloc(101);
+    va_list argp;
+    va_start(argp, iFormat);
+    vsnprintf(s,101,iFormat, argp);
+    s[100]=0;
+    va_end(argp);
+    if(loggerface)
+	loggerface->logit(s);
+}
+void clogit(string iFormat, ...)
+{
+    char* s=(char*)malloc(101);
+    va_list argp;
+    va_start(argp, iFormat);
+    vsnprintf(s,101,iFormat.c_str(), argp);
+    s[100]=0;
+    va_end(argp);
+    if(loggerface)
+	loggerface->logit(s);
+}
 
 void logit(const char * iFormat, ...)
 {
@@ -495,7 +533,7 @@ void saveobjects(int online=0)
     out << settingz;
     out << EndSeq;
     fout << out.c_str();
-    logit("%s",out.c_str());
+    clogit("%s",out.c_str());
 }
 
 
@@ -1045,7 +1083,7 @@ int main(int argc, char *argv[])
 	if(argc==2)
 		world = argv[1];
 
-	wrld=path + string(world);
+	wrld=path + string(world+".yml");
 	fnfl=path + string("l1");
 	clfl=path + string("colors");
 	dmps=path + string("errordumps/");

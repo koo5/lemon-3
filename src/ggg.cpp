@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include <../libs/pstreams-0.7.0/pstream.h>
 #include "json.h"
+#include "text.cpp"
 
 string char2hex( char dec )
 {
@@ -53,6 +54,7 @@ struct gggw:public obj
     string url;
     json_object *labels;
     stringstream raw;
+    text uri;
     double down;
     double side;
     SAVE(gggw)
@@ -70,6 +72,7 @@ struct gggw:public obj
     	load(down)
     	load(side)
     	load(morph)
+    	uri.settext(url.c_str());
     }
     gggw(const string uurl="root.cz")
     {
@@ -80,6 +83,7 @@ struct gggw:public obj
 	s.z=0.002;
 	down=25.5;
 	side=85.5;
+	uri.settext(url.c_str());
 	morph = "http://morph.talis.com/?input=&output=json&data-uri[]=";
     }
     size_t write_raw(void *ptr, size_t size)
@@ -184,7 +188,8 @@ struct gggw:public obj
     }
     void draw(int)
     {
-	glColor4f(0,0,1,alpha);
+	uri.draw();
+	glTranslatef(0,100,0);
 	if(root&&!is_error(root))
 	{
 	    json_object * data=json_object_object_get(root, "data");
