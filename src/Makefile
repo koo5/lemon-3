@@ -1,5 +1,5 @@
 
-DEPS  =  ../rote-3/rote.c ../rote-3/* lemon.cpp ../* demos/atlantis/* demos/nerverot/*  ../libs/yaml-cpp-0.2.5/libyaml-cpp.so  ../libs/json/lib/libjson.so
+DEPS  =  ../rote-3/rote.c lemon.cpp ../* demos/atlantis/* demos/nerverot/*  ../libs/yaml-cpp-0.2.5/libyaml-cpp.so  ../libs/json/lib/libjson.so
 GLLIBS  =  -DGL -DHAVE_OPENGL -lGL
 CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
   -I/usr/local/include \
@@ -71,7 +71,7 @@ submodules:
 	git submodule init&&\
 	git submodule update
 
-../rote-3/*: submodules
+../rote-3/rote.c: submodules
 
 demos/lemonized-pixel-city/%.cpp: submodules
 
