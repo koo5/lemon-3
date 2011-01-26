@@ -57,6 +57,26 @@ struct gtext:public text
     }
 };
 
+struct hist: public Serializable
+{
+    SAVE(hist)
+    {
+	save(url)
+	save(pos)
+    }
+    LOAD
+    {
+	load(url)
+	load(pos)
+    }
+    string url;
+    unsigned pos;
+    hist(string u="", unsigned p=0):url(u), pos(p)
+    {
+    }
+    
+};
+
 struct gggw:public obj
 {
     unsigned active,count;
@@ -67,6 +87,8 @@ struct gggw:public obj
     stringstream raw;
     text uri;
     vector<gtext*>c;
+    vector<gtext*>list;
+    vector<hist>history;
     gtext * authors;
     gtext * items;
     double down;
@@ -78,6 +100,7 @@ struct gggw:public obj
 	save(down)
 	save(side)
 	save(morph)
+	save(history);
     }
     LOAD
     {
@@ -86,6 +109,7 @@ struct gggw:public obj
     	load(down)
     	load(side)
     	load(morph)
+    	load(history);
     	uri.settext(url.c_str());
     }
     gggw(const string uurl="root.cz")
@@ -98,7 +122,6 @@ struct gggw:public obj
 	s.z=0.002;
 	down=25.5;
 	side=85.5;
-	uri.settext(url.c_str());
 	uri.seteditable(true);
 	morph = "http://morph.talis.com/?input=&output=json&data-uri[]=";
     }
@@ -198,6 +221,13 @@ struct gggw:public obj
 	if(!active)glScalef(1.4,1,1);
 	uri.draw();
 	glPopMatrix();
+	if(!active)
+	{
+	    glPushMatrix();
+	    glScalef(20,20,1);
+	    uri.draw();
+	    glPopMatrix();
+	}
 	glTranslatef(0,100,0);
 	unsigned pos=1;
 	if(root&&!is_error(root))
@@ -217,6 +247,8 @@ struct gggw:public obj
 	    {
 		    c.push_back(authors = new gtext);
 		    c.back()->settext("Authors");
+		    count++;
+		    list.push_back(authors);
 	    }
 	    return authors;
     }
@@ -226,6 +258,9 @@ struct gggw:public obj
 	    {
 		    c.push_back(items = new gtext);
 		    c.back()->settext("Items");
+		    count++;
+		    list.push_back(items);
+
 	    }
 	    return items;
     }
@@ -269,7 +304,8 @@ struct gggw:public obj
 	else
 	    c.push_back(x=new gtext(0,skey,!title.size()?skey:title));
 	count++;
-    
+	list.push_back(x);
+	
 	int i=0;
 	{
 	json_object_object_foreach(s, key2,val2)//predicate
@@ -279,16 +315,25 @@ struct gggw:public obj
 		gtext*g;
 		x->objects.push_back(g=new gtext(x->level+1, key2, label(key2)?string(label(key2)):key2));
 		count++;
+		list.push_back(g);
+		
 		int k=json_object_array_length(val2);
 		for(int j = 0; j< k; j++)
 		{
 		    string uri;
 		    string type= string((json_object_get_string(json_object_object_get(json_object_array_get_idx(val2, j), "type"))));
-		    string value=string((json_object_get_string(json_object_object_get(json_object_array_get_idx(val2, j), "value"))));
-		    if(!type.compare("uri"))
-			uri=value;
-		    g->objects.push_back(new gtext(x->level+1, uri, value));
-		    count++;
+		    json_object *v = json_object_object_get(json_object_array_get_idx(val2, j), "value");
+		    string value;
+		    if(v)
+		    {
+			value=string(json_object_get_string(v));
+			if(!type.compare("uri"))
+			    uri=value;
+			gtext*ra;
+			g->objects.push_back(ra = new gtext(x->level+1, uri, value));
+			count++;
+			list.push_back(ra);
+		    }
 		}
 	    }
 	    i++;
@@ -296,7 +341,9 @@ struct gggw:public obj
 	}
     }
     void parse()
-    {
+    {		
+	    c.clear();
+	    list.clear();
 	    count = 0;
 	    authors=items=0;
 	    json_object * data=json_object_object_get(root, "data");
@@ -326,6 +373,9 @@ struct ggg:public gggw
     ggg(){}
     void go()
     {
+    
+    	uri.settext(url.c_str());
+
 	CURL *curl_handle;
 	curl_global_init(CURL_GLOBAL_ALL);
 	curl_handle = curl_easy_init();
@@ -365,6 +415,21 @@ struct ggg:public gggw
 	}
 
     }
+    void gourl(string u)
+    {
+    	history.push_back(hist(url, active));
+	url=u;
+	go();
+    }
+    void goback()
+    {
+	if(history.size())
+	{
+	    url=history.back().url;
+	    active=history.back().pos;
+	    go();
+	}
+    }
     void keyp(int key,int uni,int mod)
     {
 	if(key==SDLK_UP)
@@ -373,7 +438,16 @@ struct ggg:public gggw
 	}
 	else if(key==SDLK_DOWN)
 	{
-	    if(active < count-1) active++;
+	    if(active < count) active++;
+	}
+	else if((active>0) && key==SDLK_RIGHT)
+	{
+	    if(!list.at(active-1)->url.empty())
+		gourl(list.at(active-1)->url);
+	}
+	else if((active>0) && key==SDLK_LEFT)
+	{
+	    goback();
 	}
 	else if(!active)
 	    uri.keyp(key, uni, mod);
