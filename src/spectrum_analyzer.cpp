@@ -26,7 +26,7 @@
 	GLfloat  scale;
 	float rx,ry,rz;
 	float rotx,roty,rotz;
-	int getDirty(){return 1;}
+//	int getDirty(){return 1;}
 	spectrum_analyzer()
 	{
 	    scale = 1.0 / log(256.0);
@@ -158,10 +158,10 @@
 	        for(i = 0; i < 16; i++)
 		    spectrum_analyzer::heights[0][i] = 0;
 	    
-	    if (!noise && dirty) 
-		dirty--;
-	    else 
+	    if (noise) 
 		dirty=16;
+	    else if(dirty)
+		dirty--;
 
 	    int x;
 	    GLfloat x_offset, z_offset, r_base, b_base;

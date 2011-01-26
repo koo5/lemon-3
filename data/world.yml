@@ -22,12 +22,12 @@
       x: 5
       y: 4
       z: 5
-  rotx: -4479.17
+  rotx: -4569.38
   roty: 0
-  rotz: 81830.1
-  rx: -1.51992e-07
+  rotz: 77012.1
+  rx: -1.46031e-07
   ry: 0
-  rz: -1.51992e-07
+  rz: 0.2
 -
   Class: face
   terminal:
@@ -87,8 +87,8 @@
   line_antialiasing: 0
   givehelp: 0
   lv: 1
-  w: 1278
-  h: 700
+  w: 1232
+  h: 707
   znear: 1
   zfar: 20
   cam:

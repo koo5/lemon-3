@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include "rote-3/wtf.h"
 
 struct glyph
 {
@@ -150,8 +151,8 @@ xy drawchar(xy lok, unsigned int i)
 	    return nlok;
 	}
     }
-    spillit(lok,"ZZZ~~~~ZZZ~~Z~~Z");
-    clogit("unknown char: %u",i);
+    _spillit(lok,"zzzaaaazzzaazaaz",0);
+    logit("unknown char: %u",i);
     nlok.x+=26;
     return nlok;
 }
@@ -167,7 +168,7 @@ void drawmonospace(xy lok, unsigned int i)
 	    return;
 	}
     }
-    spillit(lok,"ZZZ~~~~ZZZ~~Z~~Z");
+    _spillit(lok,"zzzaaaazzzaazaaz",0);
     logit("unknown char: %u",i);
     return;
 }
@@ -180,6 +181,8 @@ void flush_text()
 void draw_text(const char *a)
 {
   if(!a)return;
+  wtfdecoder w;
+  memset(&w,0,sizeof(w));
   xy lok;
   lok.x=0;
   lok.y=0;
@@ -187,13 +190,16 @@ void draw_text(const char *a)
   glBegin(GL_LINE_STRIP);
   do 
   {
-	lok=drawchar(lok,*a);
-	if (*a==10)
+	if(wtf(*a, &w))
 	{
-	    lok.x=0;
-	    lok.y=lok.y+30;
-	    glEnd();
-	    glBegin(GL_LINE_STRIP);
+	    lok=drawchar(lok,w.etff);
+	    if (w.etff==10)
+	    {
+		lok.x=0;
+		lok.y=lok.y+30;
+		glEnd();
+		glBegin(GL_LINE_STRIP);
+	    }
 	}
 	if (!*a)
 	    break;

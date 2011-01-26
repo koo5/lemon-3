@@ -210,6 +210,7 @@ struct obj:public Serializable
     int dirty;
     double alpha;
     v3d t,r,spin,s;
+    vector <obj*>objects;
     obj()
     {
 	t.x=t.y=t.z=r.x=r.y=r.z=spin.x=spin.y=spin.z=dirty=0;
@@ -650,7 +651,9 @@ int anything_dirty()
 {
     for_each_object
 	if(o->getDirty()||o->spin.x||o->spin.y||o->spin.z)
+	{//cout<<o->class_name()<<endl;
 	    return 1;
+	}
     endf
     return 0;
 }
@@ -1099,8 +1102,12 @@ int main(int argc, char *argv[])
 	ifstream in(jsv8);
 	if(!in.fail())
 	{
-		string iin;
-		in >> iin;
+		string iin, line;
+		while(in.good())
+		{
+		    getline(in, line);
+		    iin += line;
+		}
 		v8::Handle<v8::String> source = v8::String::New(iin.c_str());
 		v8::Handle<v8::Script> script = v8::Script::Compile(source);
 		v8::Handle<v8::Value> result = script->Run();

@@ -46,15 +46,29 @@ string urlencode(const string &c)
     return escaped;
 }
 
+struct gtext:public text
+{
+    int level;
+    string url;
+    gtext(int l=0, string u="", string te=""):text(te)
+    {
+	level=l;
+	url=u;
+    }
+};
 
 struct gggw:public obj
 {
+    unsigned active,count;
     json_object*root;
     string morph;
     string url;
     json_object *labels;
     stringstream raw;
     text uri;
+    vector<gtext*>c;
+    gtext * authors;
+    gtext * items;
     double down;
     double side;
     SAVE(gggw)
@@ -76,6 +90,7 @@ struct gggw:public obj
     }
     gggw(const string uurl="root.cz")
     {
+	active=0;
 	url=uurl;
 	root=0;
 	s.x=0.01;
@@ -84,6 +99,7 @@ struct gggw:public obj
 	down=25.5;
 	side=85.5;
 	uri.settext(url.c_str());
+	uri.seteditable(true);
 	morph = "http://morph.talis.com/?input=&output=json&data-uri[]=";
     }
     size_t write_raw(void *ptr, size_t size)
@@ -161,52 +177,133 @@ struct gggw:public obj
 	}
 	return key;
     }
-    void draw_subject(json_object *o)
+    void draw_(gtext *t,unsigned*pos)
     {
-	json_object_object_foreach(o, key,val)//predicate
+	glPushMatrix();
+	if(active==(*pos))glScalef(1.4,1,1);
+	t->draw();
+	glPopMatrix();
+	one_down();
+	one_right();
+	(*pos)++;
+	for(unsigned i=0;i<t->objects.size();i++)
 	{
-	    const char * l = label(key);
-	    if(l)
-	    {
-		if(!strcmp(l, "Format"))	continue;
-		draw_text(l);
-	    }
-	    else
-	    {
-		draw_text(key);
-		logit("no label");
-	    }
-	    one_down();
-	    one_right();
-	    int k=json_object_array_length(val);
-	    for(int i = 0; i< k; i++)
-	    {
-		draw_item(json_object_object_get(json_object_array_get_idx(val, i), "value"));
-	    }
-	    one_left();
+	    draw_(dynamic_cast<gtext*>(t->objects[i]),pos);
 	}
+	one_left();
     }
     void draw(int)
     {
+	glPushMatrix();
+	if(!active)glScalef(1.4,1,1);
 	uri.draw();
+	glPopMatrix();
 	glTranslatef(0,100,0);
+	unsigned pos=1;
 	if(root&&!is_error(root))
 	{
-	    json_object * data=json_object_object_get(root, "data");
-	    labels=json_object_object_get(root, "labels");
-	    if(!data || !labels)	data=root;
-	    json_object_object_foreach(data, key,val)//subject
+	    for(unsigned i = 0; i < c.size(); i++)//subject
 	    {
-		draw_text(key);
-		one_down();
-		one_right();
-		draw_subject(val);
-		one_left();
+		draw_(c[i],&pos);
 		one_down();
 	    }
 	}
 	else
 	    draw_text(raw.str().c_str());
+    }
+    gtext * get_authors()
+    {
+	    if(!authors)
+	    {
+		    c.push_back(authors = new gtext);
+		    c.back()->settext("Authors");
+	    }
+	    return authors;
+    }
+    gtext * get_items()
+    {
+	    if(!items)
+	    {
+		    c.push_back(items = new gtext);
+		    c.back()->settext("Items");
+	    }
+	    return items;
+    }
+		    
+    void parse_subject(string skey, json_object*s)
+    {
+	gtext * parent = 0;
+	string title = skey;
+	vector<bool>vis;
+	json_object_object_foreach(s, key,val)//predicate
+	{
+	    bool hide = false;
+	    const char * l = label(key);
+	    if(l)
+	    {
+		string value=string(json_object_get_string(json_object_object_get(json_object_array_get_idx(val, 0), "value")));
+		if(!strcmp(l, "Type")&&(!value.compare("http://poshrdf.org/ns/mf#Author")))
+		{
+		    hide = true;
+		    parent = get_authors();
+		}
+		if(!strcmp(l, "Type")&&(!value.compare("http://poshrdf.org/ns/mf#Item")))
+		{
+		    hide = true;
+		    parent = get_items();
+		}
+		if(!strcmp(l, "Title"))
+		{
+		    title = value;
+		    hide=true;
+		}
+		if(!strcmp(l, "Format"))
+		    hide=true;
+	    }
+	    vis.push_back(!hide);
+	}
+
+	gtext * x;
+	if(parent)
+	    parent->objects.push_back(x=new gtext(1,skey,!title.size()?skey:title));
+	else
+	    c.push_back(x=new gtext(0,skey,!title.size()?skey:title));
+	count++;
+    
+	int i=0;
+	{
+	json_object_object_foreach(s, key2,val2)//predicate
+	{
+	    if(vis[i])
+	    {
+		gtext*g;
+		x->objects.push_back(g=new gtext(x->level+1, key2, label(key2)?string(label(key2)):key2));
+		count++;
+		int k=json_object_array_length(val2);
+		for(int j = 0; j< k; j++)
+		{
+		    string uri;
+		    string type= string((json_object_get_string(json_object_object_get(json_object_array_get_idx(val2, j), "type"))));
+		    string value=string((json_object_get_string(json_object_object_get(json_object_array_get_idx(val2, j), "value"))));
+		    if(!type.compare("uri"))
+			uri=value;
+		    g->objects.push_back(new gtext(x->level+1, uri, value));
+		    count++;
+		}
+	    }
+	    i++;
+	}
+	}
+    }
+    void parse()
+    {
+	    count = 0;
+	    authors=items=0;
+	    json_object * data=json_object_object_get(root, "data");
+	    labels=json_object_object_get(root, "labels");
+	    if(!data || !labels)	data=root;
+	    json_object_object_foreach(data, key,val)//subject
+		parse_subject(key, val);
     }
 };
 
@@ -245,8 +342,11 @@ struct ggg:public gggw
 
 	root = json_tokener_parse(raw.str().c_str());
 	if(root&&!is_error(root))
+	{
+	    parse();
 	    return;
-
+	}
+	
 	ostringstream f;
 	f << dmps << runtime_id << ".html";
 	string fn(f.str());
@@ -265,9 +365,20 @@ struct ggg:public gggw
 	}
 
     }
-    void keyp(int,int,int)
+    void keyp(int key,int uni,int mod)
     {
-//	go();
+	if(key==SDLK_UP)
+	{
+	    if(active > 0) active--;
+	}
+	else if(key==SDLK_DOWN)
+	{
+	    if(active < count-1) active++;
+	}
+	else if(!active)
+	    uri.keyp(key, uni, mod);
+	
+	dirty=1;
     }
 };
 

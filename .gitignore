@@ -32,7 +32,7 @@ toys/spectrum-analyzer/audaciousplugin/src/libexample2.la
 toys/spectrum-analyzer/audaciousplugin/src/plugin_main.lo
 toys/spectrum-analyzer/audaciousplugin/src/plugin_main.o
 toys/spectrum-analyzer/audaciousplugin/stamp-h1
-#data/errordumps/
+data/errordumps/
 libs/json-c-0.9/.deps/
 libs/json-c-0.9/.libs/
 libs/json-c-0.9/Makefile

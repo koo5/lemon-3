@@ -1,2 +1,2 @@
-export LD_PRELOAD=..libs/yaml-cpp-0.2.5/libyaml-cpp.so:../libs/json/lib/libjson.so
+export LD_PRELOAD=../libs/yaml-cpp-0.2.5/libyaml-cpp.so:../libs/json/lib/libjson.so
 

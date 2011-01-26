@@ -1,0 +1,2 @@
+registerafterstart(()->log("hey");go();
+)
