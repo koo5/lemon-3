@@ -1,4 +1,5 @@
 #include "../rote-3/wtf.h"
+#include "ftw.c"
 
 struct text: public obj
 {
@@ -30,6 +31,12 @@ struct text: public obj
 			if(wtf(*(s+i), &x))
 				t.push_back(x.etff);
 		}
+		if(curpos>t.size())
+		    curpos=t.size();
+	}
+	string gettext()
+	{
+	    return ftw(t);
 	}
 	void seteditable(bool e)
 	{
@@ -41,11 +48,25 @@ struct text: public obj
 	    curpos=0;
 	    editable=false;
 	}
-	void keyp(int key, int , int )
+	void keyp(int key, int uni, int )
 	{
 	    if((key==SDLK_LEFT) && (curpos > 0))
 		curpos--;
-	    if((key==SDLK_RIGHT) && (curpos < t.size()))
+	    else if((key==SDLK_RIGHT) && (curpos < t.size()))
 		curpos++;
+	    else if((key==SDLK_BACKSPACE) && (curpos > 0))
+	    {
+		t.erase(t.begin()+curpos-1);
+		curpos--;
+	    }
+	    else if((key==SDLK_DELETE) && (curpos < t.size()))
+	    {
+		t.erase(t.begin()+curpos);
+	    }
+	    else if(uni)
+	    {
+		t.insert(t.begin()+curpos, uni);
+		curpos++;
+	    }
 	}
 };

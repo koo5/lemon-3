@@ -427,6 +427,7 @@ struct ggg:public gggw
 	{
 	    url=history.back().url;
 	    active=history.back().pos;
+	    history.pop_back();
 	    go();
 	}
     }
@@ -448,6 +449,10 @@ struct ggg:public gggw
 	else if((active>0) && key==SDLK_LEFT)
 	{
 	    goback();
+	}
+	else if(!active && key==SDLK_RETURN)
+	{
+	    gourl(uri.gettext());
 	}
 	else if(!active)
 	    uri.keyp(key, uni, mod);

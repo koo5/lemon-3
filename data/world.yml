@@ -10,24 +10,24 @@
     r:
       Class: v3d
       x: 0
-      y: 0
-      z: -11680.3
+      y: 411.9
+      z: -226445
     spin:
       Class: v3d
       x: 0
       y: 0
-      z: 0
+      z: -0
     s:
       Class: v3d
-      x: 5
-      y: 4
-      z: 5
-  rotx: -4569.38
+      x: 0.5
+      y: 0.4
+      z: 0.5
+  rotx: -17447.4
   roty: 0
-  rotz: 77012.1
-  rx: -1.46031e-07
+  rotz: 84746.9
+  rx: -0.8
   ry: 0
-  rz: 0.2
+  rz: 3.27826e-08
 -
   Class: face
   terminal:
@@ -49,11 +49,11 @@
         z: 0
       s:
         Class: v3d
-        x: 0.0036
-        y: -0.02
+        x: 0.0046
+        y: -0.025
         z: 0.002
-    cols: 147
-    rows: 36
+    cols: 113
+    rows: 30
 -
   Class: ggg
   gggw:
@@ -75,19 +75,76 @@
         z: 0
       s:
         Class: v3d
-        x: 0.003
+        x: 0.002
         y: -0.01
         z: 0.002
-    url: http://root.cz
+    url: http://purl.org/rss/1.0/channel
     down: 25.5
     side: 85.5
     morph: http://localhost/?input=&output=json&data-uri[]=
+    history:
+      -
+        Class: hist
+        url: http://root.cz
+        pos: 5
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?action=.xml;type=rss2;limit=30;sa=news
+        pos: 8
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?topic=1587.0
+        pos: 13
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?type=rss;action=.xml
+        pos: 21
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?type=rss;action=.xml
+        pos: 21
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?type=rss;action=.xml
+        pos: 21
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?topic=1564.msg11388#msg11388
+        pos: 6
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?topic=1564.msg11129#msg11129
+        pos: 7
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?topic=1564.msg11133#msg11133
+        pos: 10
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?type=rss;action=.xml
+        pos: 21
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?topic=1381.msg11397#msg11397
+        pos: 11
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?type=rss;action=.xml
+        pos: 47
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?topic=1588.msg11395#msg11395
+        pos: 3
+      -
+        Class: hist
+        url: http://forum.root.cz/index.php?type=rss;action=.xml
+        pos: 3
 -
   Class: Settingz
   line_antialiasing: 0
   givehelp: 0
   lv: 1
-  w: 1232
+  w: 1278
   h: 707
   znear: 1
   zfar: 20
