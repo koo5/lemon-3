@@ -450,7 +450,7 @@ struct ggg:public gggw
 	{
 	    goback();
 	}
-	else if(!active && key==SDLK_RETURN)
+	else if(!active && ((key==SDLK_RETURN)||(key==SDLK_KP_ENTER)))
 	{
 	    gourl(uri.gettext());
 	}

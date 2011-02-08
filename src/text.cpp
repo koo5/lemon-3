@@ -48,7 +48,7 @@ struct text: public obj
 	    curpos=0;
 	    editable=false;
 	}
-	void keyp(int key, int uni, int )
+	void keyp(int key, int uni, int mod)
 	{
 	    if((key==SDLK_LEFT) && (curpos > 0))
 		curpos--;
@@ -62,6 +62,15 @@ struct text: public obj
 	    else if((key==SDLK_DELETE) && (curpos < t.size()))
 	    {
 		t.erase(t.begin()+curpos);
+	    }
+	    else if((mod&KMOD_RSHIFT)&&(key==SDLK_INSERT))
+	    {
+		char *ch = rotoclipin(0);
+		if(ch)
+		{
+		    settext(ch);
+		    free(ch);
+		}
 	    }
 	    else if(uni)
 	    {

@@ -224,6 +224,7 @@ struct terminal:public obj
 		t->scroll=0;
 	    if(key==SDLK_HOME)
 		t->scroll=t->logl;
+	    dirty=1;
 	}
 	else
 	{
