@@ -1,14 +1,15 @@
 #include "demos/nerverot/stolenfromglu"
 #include "demos/nerverot/nerverot.c"
 
-    GLfloat fmin(GLfloat a, GLfloat b)
+/*    GLfloat f_min(GLfloat a, GLfloat b)
     {
 	return a>b?b:a;
     }
-    GLfloat fmax(GLfloat a, GLfloat b)
+    GLfloat f_max(GLfloat a, GLfloat b)
     {
 	return a<b?b:a;
     }
+*/
     class nerverot:public obj
     {
         public:

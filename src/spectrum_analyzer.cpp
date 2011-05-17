@@ -31,7 +31,7 @@
 	{
 	    scale = 1.0 / log(256.0);
 	    alpha=0.05;
-	    rz=ry=rz=rotx=roty=rotz=0;
+	    rx=ry=rz=rotx=roty=rotz=0;
 	    dirty = 16;
 	}
 	void picked(int up, int  b,vector<int>&v,int x, int y)
