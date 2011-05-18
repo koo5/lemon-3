@@ -14,7 +14,6 @@ struct glyph
     }
 };
 vector<glyph> font;
-const char *nullglyph="dzdptuzpznxnxpzp";
 double r,g,b,a;
 void setcolor(double rr,double gg,double bb,double aa)
 {
@@ -234,20 +233,32 @@ void sizes(glyph&g)
     
 void loadfont(string fln)
 {
-    cout << fln<<endl;
+    cout << "loading font " << fln << " ...";
     ifstream ff(fln,std::ios::in);
-    if (!ff)
+    if (!ff.good())
     {
         cout << "cant load font from "<<fln<<endl;
         return;
     }
     font.clear();
-    font.push_back(glyph(nullglyph));
     string x;
     while(getline(ff,x))
+    {
+	if ((x.size() > 2) && (x.compare(0,2,string("<-"))==0))
+	{
+	    cout << "bingo!..";
+	    string num = x.substr(2);
+	    unsigned where = atoi(num.c_str());
+	    cout <<where << "..";
+	    while (font.size() < where)
+		font.push_back(glyph(x));
+	}
 	font.push_back(glyph(x));
+    }
+    
     for(unsigned int i=0;i<font.size();i++)
 	font.at(i).s=prepare(font.at(i).s);
     for(unsigned int i=0;i<font.size();i++)
 	sizes(font.at(i));
+    cout << "...ok" << endl;
 }
