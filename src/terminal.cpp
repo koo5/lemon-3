@@ -207,6 +207,7 @@ struct terminal:public obj
 		    resizooo(0,-1,k);
 		    break;
 		case SDLK_DELETE:
+		case SDLK_PAGEUP:
 		    resizooo(-1,0,k);
 		    break;
 		case SDLK_PAGEDOWN:
