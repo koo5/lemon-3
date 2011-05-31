@@ -1,7 +1,8 @@
 
-DEPS  =  ../rote-3/rote.c lemon.cpp ../* demos/atlantis/* demos/nerverot/*  ../libs/yaml-cpp-0.2.5/libyaml-cpp.so  ../libs/json/lib/libjson.so
+DEPS  =  ../rote-3/rote.c lemon.cpp ../* demos/atlantis/* demos/nerverot/*  ../libs/yaml-cpp-0.2.5/libyaml-cpp.so  ../libs/json/lib/libjson.so ../libs/ftgl/lib/libftgl.so
 GLLIBS  =  -DGL -DHAVE_OPENGL -lGL
 CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
+`pkg-config ../libs/json/lib/pkgconfig/json.pc --cflags --libs` `pkg-config ../libs/ftgl/lib/pkgconfig/ftgl.pc --cflags --libs` \
   -I/usr/local/include \
  -L/usr/lib -L/usr/X11R6/lib  -lutil -L/usr/local/lib  \
     -L/usr/local/lib   `pkg-config --libs x11`\
@@ -17,7 +18,7 @@ pl=$(shell uname)
 
 ifeq ($(pl),Linux)
 #PYLIBS = -Dpython `/usr/bin/python2.6-config --cflags`  `/usr/bin/python2.6-config --libs ` 
-CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` `curl-config --libs` `curl-config --cflags` -L/usr/lib/libv8.so -lv8 `pkg-config ../libs/json/lib/pkgconfig/json.pc --cflags --libs`
+CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` `curl-config --libs` `curl-config --cflags` -L/usr/lib/libv8.so -lv8 
 GLLIBS += -lGL
 # -lSDL_ttf 
 
@@ -31,7 +32,7 @@ CFLIBS += -DWINDOWS -I/usr/include/ncurses -I/usr/local/include/SDL -I/usr/inclu
 endif
 
                                                                        
-CC      =g++ -o $@ lemon.cpp -g -ggdb $(GLLIBS) $(CFLIBS) -std=c++0x -W -Wall -Wextra  -pedantic \
+CC      =g++ -Woverflow -o $@ lemon.cpp -g -ggdb $(GLLIBS) $(CFLIBS) -std=c++0x -W -Wall -Wextra  -pedantic -ftrapv\
 	 -Dlibpng -lpng -Dnerve -lGLU  -lm -Wno-write-strings  -lXcomposite -lXdamage -lXfixes -lXrender -lX11 
 
 
@@ -82,3 +83,10 @@ demos/lemonized-pixel-city/%.o: demos/lemonized-pixel-city/%.cpp
 	cd ../libs/json-c-0.9&&\
 	./configure --prefix=`pwd`/../json &&\
 	make&&make install
+
+../libs/ftgl/lib/libftgl.so:
+	cd ../libs/ftgl-2.1.3-rc5&&\
+	./configure --prefix=`pwd`/../ftgl &&\
+	make&&make install
+
+

@@ -104,6 +104,12 @@ string clfl;//colors
 string wrld;//world yaml
 string dmps, jsv8;
 
+#include <FTGL/ftgl.h>
+
+FTGLTextureFont ftglfont("/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf");
+
+
+
 int min(int a, int b)
 {
     return a < b ? a : b;
@@ -279,6 +285,8 @@ struct Settingz: public Serializable
 	save(line_antialiasing)
 	save(givehelp)
 	save(lv)
+	save(ftglsize)
+	save(ftglres)
 	vsave(w)
 	vsave(h)
 	vsave(znear)
@@ -295,6 +303,8 @@ struct Settingz: public Serializable
 	load(line_antialiasing)
 	load(givehelp)
 	load(lv)
+	load(ftglsize)
+	load(ftglres)
 	vload(w)
 	vload(h)
 	vload(znear)
@@ -309,8 +319,12 @@ struct Settingz: public Serializable
     int32_t line_antialiasing;
     int32_t givehelp;
     double lv;//glLineWidth
+    int ftglsize;
+    int ftglres;
     Settingz()
     {
+	ftglsize = 26;
+	ftglres = 26;
 	line_antialiasing=0;
 	givehelp=1;
 	lv=1;
@@ -768,16 +782,56 @@ void process_event(SDL_Event event)
 			    case SDLK_LEFT:
 				if(active)
 				    active->spin.z+=0.03;
+				    dirty = 1;
 				break;             
 			    case SDLK_RIGHT:
 				if(active)
 				    active->spin.z-=0.03;
+				    dirty = 1;
 				break;             
 			    case SDLK_v:
 				cr.y+=3.4;
+				dirty = 1;
 				break;             
 			    case SDLK_c:
 				cr.y-=3.4;
+				dirty = 1;
+				break;
+			    case SDLK_F7:
+				settingz.ftglres--;
+				dirty = 1;
+				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				break;             
+			    case SDLK_F8:
+				settingz.ftglres++;
+				dirty = 1;
+				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				break;
+			    case SDLK_F9:
+				//settingz.ftglsize--;
+				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				dirty = 1;
+				break;             
+			    case SDLK_F10:
+				//settingz.ftglsize++;
+				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				dirty = 1;
+				break;
+			    case SDLK_F11:
+				if (active)
+				{
+				    active->s.x = active->s.x * 0.95;
+				    active->s.y = active->s.y * 0.95;
+				    dirty = 1;
+				}
+				break;             
+			    case SDLK_F12:
+				if (active)
+				{
+				    active->s.x = active->s.x * 1.05;
+				    active->s.y = active->s.y * 1.05;
+				    dirty = 1;
+				}
 				break;
 			    case SDLK_EQUALS:
 				if(active)
@@ -891,7 +945,7 @@ void lemon (void)
     );
     SDL_EnableUNICODE(1);
     SDL_InitSubSystem( SDL_INIT_TIMER);
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY/2, SDL_DEFAULT_REPEAT_INTERVAL*2);
+    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY/2, SDL_DEFAULT_REPEAT_INTERVAL/3);
     loadfont(fnfl);
     loadcolors();
     #ifdef GL
@@ -904,6 +958,12 @@ void lemon (void)
 	updatelinesmooth();
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     #endif
+    
+    ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres++);
+    ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+    settingz.ftglres--;
+    //dont ask me, i just work here.
+
     loadobjects();
 //    objects.push_back(new nerverot);
     if(!objects.size())
@@ -934,6 +994,7 @@ void lemon (void)
     afterglow=1;
     int lastmousemoved=SDL_GetTicks();
     int lastphysics=SDL_GetTicks();
+    int lostphysics = 0;
     while( !done )
     {
 	SDL_TimerID x=0;
@@ -947,12 +1008,16 @@ void lemon (void)
 	    if(anything_dirty())
 		x= SDL_AddTimer(5, TimerCallback, 0);
 	}
+	else
+	    lostphysics = 1;
+
 	unlockterms();
 	//logit("---------unlocked waiting\n");
     	SDL_Event event;
 	if(SDL_WaitEvent( &event ))
 	{
 	    if(SDL_GetTicks()-lastmousemoved>300)afterglow=0;
+
 	    lockterms();
 	    //logit("---------locked goooin %i\n", event.type);
 	    if(x)SDL_RemoveTimer(x);x=0;
@@ -1015,9 +1080,11 @@ void lemon (void)
 		unlockterms();
 	else
 		saveobjects();
+	if (lostphysics) lastphysics = SDL_GetTicks();
 	int t= SDL_GetTicks();
 	physics(t-lastphysics);
 	lastphysics=t;
+	lostphysics = 0;
     }
     objects.clear();
     font.clear();

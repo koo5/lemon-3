@@ -1,10 +1,9 @@
 #wished for:
-#ability for normal fonts (screenshots: http://koo5.github.com/ )
 #transparency
 #everything else!
 
-sudo aptitude update
-sudo aptitude install libgl1-mesa-dev libglu-dev libglut3-dev libpng-dev libxcomposite-dev libxdamage-dev libxrender-dev make cmake g++ libncurses-dev  git-core xclip pkg-config libcurl4-gnutls-dev libsdl-dev libv8-dev
+#sudo aptitude update
+sudo aptitude install libgl1-mesa-dev libglu-dev libglut3-dev libpng-dev libxcomposite-dev libxdamage-dev libxrender-dev make cmake g++ libncurses-dev xclip pkg-config libcurl4-gnutls-dev libsdl-dev libv8-dev
 cd src
 make
 ./l

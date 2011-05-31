@@ -20,18 +20,22 @@
         z: 0
       s:
         Class: v3d
-        x: 0.0076
-        y: -0.025
+        x: 0.00658977
+        y: -0.0119732
         z: 0.002
-    cols: 98
-    rows: 30
+    cols: 117
+    rows: 64
+    fontnum: 1
+    bgalpha: 0.25
 -
   Class: Settingz
   line_antialiasing: 0
   givehelp: 0
   lv: 1
-  w: 884
-  h: 700
+  ftglsize: 65
+  ftglres: 37
+  w: 1022
+  h: 709
   znear: 1
   zfar: 20
   cam:
@@ -47,7 +51,7 @@
   cr:
     Class: v3d
     x: 0
-    y: 0
+    y: -8.88178e-16
     z: 0
   pixel_city_ini:
     {}
