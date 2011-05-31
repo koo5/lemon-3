@@ -332,6 +332,24 @@ class FTGL_EXPORT FTFont
          * @param renderMode  Render mode to use for display (optional).
          * @return  The new pen position after the last character was output.
          */
+        virtual FTPoint Render(const unsigned int* string, const int len = -1,
+                               FTPoint position = FTPoint(),
+                               FTPoint spacing = FTPoint(),
+                               int renderMode = FTGL::RENDER_ALL);
+
+        /**
+         * Render a string of characters.
+         *
+         * @param string  'C' style string to be output.
+         * @param len  The length of the string. If < 0 then all characters
+         *             will be displayed until a null character is encountered
+         *             (optional).
+         * @param position  The pen position of the first character (optional).
+         * @param spacing  A displacement vector to add after each character
+         *                 has been displayed (optional).
+         * @param renderMode  Render mode to use for display (optional).
+         * @return  The new pen position after the last character was output.
+         */
         virtual FTPoint Render(const char* string, const int len = -1,
                                FTPoint position = FTPoint(),
                                FTPoint spacing = FTPoint(),

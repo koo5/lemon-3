@@ -86,6 +86,9 @@ class FTFontImpl
 
         virtual float Advance(const wchar_t *s, const int len, FTPoint);
 
+        virtual FTPoint Render(const unsigned int *s, const int len,
+                               FTPoint, FTPoint, int);
+
         virtual FTPoint Render(const char *s, const int len,
                                FTPoint, FTPoint, int);
 
