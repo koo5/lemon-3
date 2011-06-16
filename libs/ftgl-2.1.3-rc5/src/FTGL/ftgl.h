@@ -83,9 +83,9 @@ namespace FTGL
 
     // Disable various warning.
     // 4786: template name too long
-    pragma warning(disable : 4251)
-    pragma warning(disable : 4275)
-    pragma warning(disable : 4786)
+    #pragma warning(disable : 4251)
+    #pragma warning(disable : 4275)
+    #pragma warning(disable : 4786)
 
     // The following definitions control how symbols are exported.
     // If the target is a static library ensure that FTGL_LIBRARY_STATIC

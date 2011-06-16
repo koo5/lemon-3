@@ -55,10 +55,6 @@ class FTTextureFontImpl : public FTFontImpl
         virtual bool FaceSize(const unsigned int size,
                               const unsigned int res = 72);
 
-        virtual FTPoint Render(const unsigned int *s, const int len,
-                               FTPoint position, FTPoint spacing,
-                               int renderMode);
-
         virtual FTPoint Render(const char *s, const int len,
                                FTPoint position, FTPoint spacing,
                                int renderMode);

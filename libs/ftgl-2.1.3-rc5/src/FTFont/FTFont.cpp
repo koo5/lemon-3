@@ -161,13 +161,6 @@ float FTFont::LineHeight() const
 }
 
 
-FTPoint FTFont::Render(const unsigned int * string, const int len,
-                       FTPoint position, FTPoint spacing, int renderMode)
-{
-    return impl->Render(string, len, position, spacing, renderMode);
-}
-
-
 FTPoint FTFont::Render(const char * string, const int len,
                        FTPoint position, FTPoint spacing, int renderMode)
 {
@@ -508,14 +501,6 @@ inline FTPoint FTFontImpl::RenderI(const T* string, const int len,
     }
 
     return position;
-}
-
-
-FTPoint FTFontImpl::Render(const unsigned int * string, const int len,
-                           FTPoint position, FTPoint spacing, int renderMode)
-{
-    return RenderI(string,
-                   len, position, spacing, renderMode);
 }
 
 

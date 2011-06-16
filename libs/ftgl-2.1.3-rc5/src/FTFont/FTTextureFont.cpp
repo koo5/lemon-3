@@ -250,14 +250,6 @@ inline FTPoint FTTextureFontImpl::RenderI(const T* string, const int len,
 }
 
 
-FTPoint FTTextureFontImpl::Render(const unsigned int * string, const int len,
-                                  FTPoint position, FTPoint spacing,
-                                  int renderMode)
-{
-    return RenderI(string, len, position, spacing, renderMode);
-}
-
-
 FTPoint FTTextureFontImpl::Render(const char * string, const int len,
                                   FTPoint position, FTPoint spacing,
                                   int renderMode)

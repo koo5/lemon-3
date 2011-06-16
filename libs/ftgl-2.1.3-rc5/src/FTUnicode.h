@@ -70,7 +70,6 @@ public:
             case 2: // UTF-16
                 readUTF16(); break;
             case 4: // UTF-32
-            case 8: // UTF-32
                 // fall through
             default: // error condition really, but give it a shot anyway
                 curChar = *nextPos++;
