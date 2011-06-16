@@ -1,5 +1,4 @@
 #include "../rote-3/wtf.h"
-#include "ftw.c"
 
 struct text: public obj
 {

@@ -30,6 +30,7 @@ void loadcolors(void)
 
 struct terminal:public obj
 {
+    double spacing;
     double bgalpha;
     int fontnum;
     char *status;
@@ -53,6 +54,7 @@ struct terminal:public obj
 	vsave(rows)
 	vsave(fontnum)
 	vsave(bgalpha)
+	vsave(spacing)
     }
     LOAD
     {
@@ -63,6 +65,7 @@ struct terminal:public obj
     	vload(rows)
     	vload(fontnum)
     	vload(bgalpha)
+    	vload(spacing)
         cout << cols<<" "<<rows<<endl;
 	rote_vt_resize(t,rows,cols);
 	rote_vt_clear(t);
@@ -102,7 +105,7 @@ struct terminal:public obj
     {
         int up=duck[SDLK_HOME]||(yy==-1);
         int dw=duck[SDLK_END]||(yy==1);
-        int lf=duck[SDLK_DELETE]||(xx==-1);
+        int lf=duck[SDLK_PAGEUP]||(xx==-1);
         int ri=duck[SDLK_PAGEDOWN]||(xx==1);
         if(up)
 	    yy=-1;
@@ -189,13 +192,14 @@ struct terminal:public obj
 	    Uint8*k = SDL_GetKeyState(0);
 	    switch(key)
 	    {
+		case SDLK_DELETE:
 		case SDLK_END:
 		    resizooo(0,1,k);
 		    break;
+		case SDLK_INSERT:
 		case SDLK_HOME:
 		    resizooo(0,-1,k);
 		    break;
-		case SDLK_DELETE:
 		case SDLK_PAGEUP:
 		    resizooo(-1,0,k);
 		    break;
@@ -206,6 +210,14 @@ struct terminal:public obj
 		    fontnum++;
 		    if (fontnum > 1)
 			fontnum = 0;
+		    dirty = 1;
+		    break;
+		case SDLK_F1:
+		    spacing -=0.01;
+		    dirty = 1;
+		    break;
+		case SDLK_F2:
+		    spacing +=0.01;
 		    dirty = 1;
 		    break;
 		case SDLK_a:
@@ -258,7 +270,7 @@ struct terminal:public obj
 	else
 	{
 	    //if((active==this)&&!t->cursorhidden)ghost();
-	    if (ftglfont.Error())
+	    if (ftglfont->Error())
 		fontnum = 0;
     	    draw_terminal();
     	}
@@ -271,7 +283,6 @@ struct terminal:public obj
 	    setcolor(colors[theme][c].r/255.0,colors[theme][c].g/255.0,colors[theme][c].b/255.0,a);
 	else
 	    glColor4f(colors[theme][c].r/255.0,colors[theme][c].g/255.0,colors[theme][c].b/255.0,a);
-//	    glColor4f(1,1,1,1);
     }
 
     void set_color(int theme,int attr,float a)
@@ -286,7 +297,7 @@ struct terminal:public obj
         glTranslatef(lok.x,lok.y+22,0);
 	glScalef(1, -1, 1);
 	if (ch)
-	    ftglfont.Render(&ch,1);
+	    ftglfont->Render("&ch",1);
 	glPopMatrix();
     }
     
@@ -381,7 +392,7 @@ struct terminal:public obj
 	glPopMatrix();
     }
     
-    void le_cursor(xy lok, double alpha)
+    void le_square(xy lok, double alpha)
     {
     	glPushMatrix();
 	glTranslatef(lok.x+13,lok.y+13,0);
@@ -397,50 +408,14 @@ struct terminal:public obj
 	glPopMatrix();
     }
     
-    void le_rotatey_letter(xy lok, unsigned int ch)
+    void le_cursor(int s, double alpha)
     {
-	glPushMatrix();
-	glTranslatef(lok.x+13,lok.y+13,0);
-	glPushMatrix();
-    	//glRotatef(SDL_GetTicks()/10,0,1,0);
-	if (fontnum == 0)
-	{
+	xy lok;
+	lok.y=(s+(t->crow-t->rows/2.0))*26;
+	lok.x=   (t->ccol-t->cols/2.0) *26;
 
-	    glBegin(GL_LINE_STRIP);
-	    xy molok;molok.x=-13;molok.y=-13;
-	    drawmonospace(molok,ch);
-	    glEnd();
-	}
-	else
-	{
-	    glTranslatef(-13,+9,0);
-	    glScalef(1, -1, 1);
-	    ftglfont.Render(&ch,1);
-	}
-        glPopMatrix();
-        glPopMatrix();
-    }
-    
-    void le_under_cursor(xy lok, double alpha, unsigned int ch, int theme, int attr)
-    {
-	if((oldcrow!=(int)t->crow)||(oldccol!=(int)t->ccol))
-	    rotor=0;//if cursor moved, reset letter rotor
-			
-	//spillit(lok, "aaazzazz"); //draw cursor
-			
-	if (fontnum == 0)
-	    glEnd();
-	
 	le_halo(lok, alpha);
-	
-	le_cursor(lok, alpha);
-	
-	do_color(theme,attr,alpha);
-	
-	le_rotatey_letter(lok, ch);
-	
-	if (fontnum == 0)
-	    glBegin(GL_LINE_STRIP);
+	le_square(lok, alpha);
     }
     
     void le_letter(xy lok, int theme, double alpha, unsigned int ch, int attr)
@@ -464,11 +439,56 @@ struct terminal:public obj
 		lok.x=(j-t->cols/2.0)*26;
 		unsigned int ch = t->cells[i][j].ch;
 		int attr = ROTE_ATTR_XFG(t->cells[i][j].attr);
-		if ((!t->cursorhidden)&&((t->ccol==(int)j)&&(t->crow==(int)i)))
-		    le_under_cursor(lok, alpha, ch, theme, attr);
-		else if((t->cells[i][j].ch!=32) && (attr != ROTE_ATTR_XBG(t->cells[i][j].attr)))
+		if((t->cells[i][j].ch!=32) && (attr != ROTE_ATTR_XBG(t->cells[i][j].attr)))
 	    	    le_letter(lok, theme, alpha, ch, attr);
 	    }
+	}
+    }
+
+    void le_flush(vector<unsigned> s, xy lok)
+    {
+	glPushMatrix();
+        glTranslatef(lok.x,lok.y+22,0);
+	glScalef(1, -1, 1);
+	int renderMode = FTGL::RENDER_FRONT | FTGL::RENDER_BACK;
+	ftglfont->Render(ftw(s).c_str(), -1, FTPoint(), FTPoint(spacing,0), renderMode);
+	glPopMatrix();
+    }
+    
+    void le_body_lines(int s, int theme, double alpha)
+    {
+	xy lok;
+	vector<unsigned> le_line;
+	int oldattr = -1;
+	for (int i=0; i<t->rows; i++)
+	{
+	    le_line.clear();
+	    lok.y=(s+(i-t->rows/2.0))*26;
+	    lok.x=(0-t->cols/2.0)*26;
+	    for (int j=0; j<t->cols; j++)
+	    {
+		
+		unsigned int ch = t->cells[i][j].ch;
+		if (ch != 32)
+		{
+		    int attr = ROTE_ATTR_XFG(t->cells[i][j].attr);
+		    if (oldattr != attr)
+		    {
+			if(oldattr != -1)
+			{
+			    do_color(theme,oldattr,alpha);    
+			    le_flush(le_line, lok);
+			    le_line.clear();
+			    lok.x = (j-t->cols/2.0)*26;
+			}
+			oldattr = attr;
+		    }
+		}
+		le_line.push_back(ch);
+	    }
+	    if(oldattr != -1)
+		do_color(theme,oldattr,alpha);    
+	    le_flush(le_line, lok);
 	}
     }
 
@@ -485,11 +505,10 @@ struct terminal:public obj
 
     void draw_terminal(int theme=0, double alpha=1)
     {
-
+	int s=min(t->scroll,t->logl); //cant be scrolled past log length
+	
     	if (fontnum == 0)
 	    glBegin(GL_LINE_STRIP);  //preapare the line-cannon
-        
-        int s=min(t->scroll,t->logl); //cant be scrolled past log length
         
         le_log(s, theme, alpha);
         
@@ -501,15 +520,17 @@ struct terminal:public obj
 	if (fontnum != 0)
 		glEnd();
 
-	le_body(s, theme, alpha);
+	if (fontnum == 0)
+	    le_body(s, theme, alpha);
+	else
+	    le_body_lines(s, theme, alpha);
 
 	if (fontnum == 0)
 	    glEnd();
 
-	le_tail(s);
+	le_cursor(s, alpha);
 
-	//oldcrow=t->crow;//need 2 reset cursor rotation
-	//oldccol=t->ccol;
+	le_tail(s);
     }
 };
 

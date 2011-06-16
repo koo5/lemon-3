@@ -62,6 +62,10 @@
 #define endf }
 using namespace YAML;
 using namespace std;
+
+#include "ftw.c"
+
+
 int w = 1280;
 int h = 800;
 
@@ -106,7 +110,7 @@ string dmps, jsv8;
 
 #include <FTGL/ftgl.h>
 
-FTGLTextureFont ftglfont("/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf");
+FTBufferFont * ftglfont;
 
 
 
@@ -332,6 +336,7 @@ struct Settingz: public Serializable
 }settingz;
 
 
+vector<string> commandstack;
 #include "terminal.cpp"
 #include "face.cpp"
 #include "logger.cpp"
@@ -800,21 +805,21 @@ void process_event(SDL_Event event)
 			    case SDLK_F7:
 				settingz.ftglres--;
 				dirty = 1;
-				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				ftglfont->FaceSize(settingz.ftglsize, settingz.ftglres);
 				break;             
 			    case SDLK_F8:
 				settingz.ftglres++;
 				dirty = 1;
-				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				ftglfont->FaceSize(settingz.ftglsize, settingz.ftglres);
 				break;
 			    case SDLK_F9:
-				//settingz.ftglsize--;
-				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				settingz.ftglsize--;
+				ftglfont->FaceSize(settingz.ftglsize, settingz.ftglres);
 				dirty = 1;
 				break;             
 			    case SDLK_F10:
-				//settingz.ftglsize++;
-				ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
+				settingz.ftglsize++;
+				ftglfont->FaceSize(settingz.ftglsize, settingz.ftglres);
 				dirty = 1;
 				break;
 			    case SDLK_F11:
@@ -958,14 +963,18 @@ void lemon (void)
 	updatelinesmooth();
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     #endif
+//    glEnable(GL_TEXTURE_2D);    
     
-    ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres++);
-    ftglfont.FaceSize(settingz.ftglsize, settingz.ftglres);
-    settingz.ftglres--;
+    ftglfont = new FTBufferFont("/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf");
+    ftglfont->CharMap(ft_encoding_unicode);
+    ftglfont->FaceSize(settingz.ftglsize, settingz.ftglres++);
+    ftglfont->FaceSize(settingz.ftglsize, settingz.ftglres--);
+    ftglfont->FaceSize(settingz.ftglsize, settingz.ftglres);
+
     //dont ask me, i just work here.
 
     loadobjects();
-//    objects.push_back(new nerverot);
+//objects.push_back(new atlantis);
     if(!objects.size())
     {
     	objects.push_back(loggerface=new logger(-8,0,0,0,70,0));
@@ -1152,6 +1161,9 @@ int main(int argc, char *argv[])
 	string world = "world";
 	if(argc==2)
 		world = argv[1];
+	if(argc==3)
+		if (strcmp(argv[1], "-e") == 0)
+			commandstack.push_back(string(argv[2]));
 
 	wrld=path + string(world+".yml");
 	fnfl=path + string("l1");

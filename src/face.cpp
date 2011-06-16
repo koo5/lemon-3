@@ -91,6 +91,11 @@ struct face:public terminal
     }
     face(const char*run="bash")
     {
+	if(commandstack.size())
+	{
+	    run = commandstack[0].c_str();
+	    commandstack.erase(commandstack.end());
+	}
 	add_terminal(run);
     }
     void type(const char * x)

@@ -155,3 +155,8 @@ libs/json-c-0.9/autom4te.cache/
 libs/json-c-0.9/config.h.in~
 src/core
 todo
+libs/ftgl-2.1.3-rc5/config.h.in
+libs/ftgl-2.1.3-rc5/configure
+libs/ftgl-2.1.3-rc5/autom4te.cache/
+libs/ftgl-2.1.3-rc5/config.h.in~
+

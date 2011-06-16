@@ -1,5 +1,28 @@
 ---
 -
+  Class: atlantis
+  obj:
+    t:
+      Class: v3d
+      x: 0
+      y: 0
+      z: 0
+    r:
+      Class: v3d
+      x: 0
+      y: 0
+      z: 0
+    spin:
+      Class: v3d
+      x: 0
+      y: 0
+      z: 0
+    s:
+      Class: v3d
+      x: 1
+      y: 1
+      z: 1
+-
   Class: face
   terminal:
     obj:
@@ -20,22 +43,23 @@
         z: 0
       s:
         Class: v3d
-        x: 0.00658977
-        y: -0.0119732
+        x: 0.0064502
+        y: -0.0161255
         z: 0.002
-    cols: 117
-    rows: 64
+    cols: 119
+    rows: 47
     fontnum: 1
-    bgalpha: 0.25
+    bgalpha: 0.3
+    spacing: 3.22
 -
   Class: Settingz
   line_antialiasing: 0
   givehelp: 0
   lv: 1
-  ftglsize: 65
-  ftglres: 37
-  w: 1022
-  h: 709
+  ftglsize: 52
+  ftglres: 52
+  w: 1366
+  h: 745
   znear: 1
   zfar: 20
   cam:
