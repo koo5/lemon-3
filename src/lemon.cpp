@@ -1009,7 +1009,7 @@ void lemon (void)
 	SDL_TimerID x=0;
 	lockterms();
 	k=SDL_GetKeyState(NULL);
-	if(dirty||anything_dirty())
+	if((dirty||anything_dirty()) && (SDL_GetAppState() & SDL_APPACTIVE))
 	{
 	    draw();
 	    nothing_dirty();
