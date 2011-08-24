@@ -230,12 +230,12 @@ struct obj:public Serializable
     }
     virtual void activate(){
 	active=this;
-	logit("activating %u", this);
+//	logit("activating %u", this);
     }
     virtual void picked(int up, int b,vector<int>&v,int x,int y)
     {
 	activate();
-	logit("activating, up=%i, button=%i, v.size=%u, x=%i. y=%i",up,b,v.size(),x,y);
+//	logit("activating, up=%i, button=%i, v.size=%u, x=%i. y=%i",up,b,v.size(),x,y);
     }
     virtual void draw(int picking){logit("drawing nothing, picking: %i",picking);};
     virtual int getDirty(){return dirty;}
@@ -562,7 +562,7 @@ void saveobjects(int online=0)
 
 void pick(int up, int button, int x, int y)
 {         
-    logit("picking objects...");
+//    logit("picking objects...");
     y=h-y;
     GLuint fuf[500];
     GLint viewport[4];
@@ -585,17 +585,17 @@ void pick(int up, int button, int x, int y)
     GLuint minz = std::numeric_limits<unsigned int>::max() ;
     int nearest=-1;
     unsigned int numhits = glRenderMode(GL_RENDER);
-    logit("%i hits", numhits);
+//    logit("%i hits", numhits);
     vector<vector<int> > hits;
     for(i=0,k=0;i<numhits;i++)
     {
 	GLuint numnames=fuf[k++];
-	logit("%i names", numnames);
-	logit("%d minz", fuf[k]);
-	logit("%d maxz", fuf[k+1]);
+//	logit("%i names", numnames);
+//	logit("%d minz", fuf[k]);
+//	logit("%d maxz", fuf[k+1]);
 	if(fuf[k]<minz)
 	{
-	    logit("%u < %u, nearest = %i", fuf[k],minz,i);
+//	    logit("%u < %u, nearest = %i", fuf[k],minz,i);
 	    nearest = i;
 	    minz = fuf[k];
 	}

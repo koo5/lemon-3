@@ -187,7 +187,7 @@ struct terminal:public obj
     	    else
 		clipin(0,1);  //selection buffer
 	}
-	if(mod&KMOD_RCTRL)
+	else if(mod&KMOD_RCTRL)
 	{	
 	    Uint8*k = SDL_GetKeyState(0);
 	    switch(key)
@@ -349,21 +349,30 @@ struct terminal:public obj
 	    	    lok.y-=100;
 		    lok.x-=100;
 		}
-		for(int j=0;j<(int)t->log[i][0].ch;j++)//len
-	        {
-		    lok.x=(j-t->cols/2.0)*26;
-		    int newcolor = ROTE_ATTR_XFG(t->log[i][j+1].attr);
-		    if (newcolor != color)
-		    {
-			do_color(theme,newcolor,alpha);
-			color = newcolor;
-		    }
-		    unsigned int char_ = t->log[i][j+1].ch;
-		    if (fontnum == 0)
+		if (fontnum == 0)
+		{
+		    for(int j=0;j<(int)t->log[i][0].ch;j++)//len
+	    	    {
+			lok.x=(j-t->cols/2.0)*26;
+			int newcolor = ROTE_ATTR_XFG(t->log[i][j+1].attr);
+			if (newcolor != color)
+			{
+			    do_color(theme,newcolor,alpha);
+			    color = newcolor;
+			}
+			unsigned int char_ = t->log[i][j+1].ch;
 	    		drawmonospace(lok,char_);
-	    	    else
-	    		tex_letter(lok, char_);
-		}	
+		    }
+		}
+		else if(fontnum == 1)
+		{
+		    glPushMatrix();
+    		    glTranslatef(lok.x,lok.y+22,0);
+		    glScalef(1, -1, 1);
+		    int renderMode = FTGL::RENDER_FRONT | FTGL::RENDER_BACK;
+		//    ftglfont->Render(ftw(s).c_str(), -1, FTPoint(), FTPoint(spacing,0), renderMode);
+		    glPopMatrix();
+		}
 	    }
         }
     }
@@ -528,7 +537,8 @@ struct terminal:public obj
 	if (fontnum == 0)
 	    glEnd();
 
-	le_cursor(s, alpha);
+	if (!t->cursorhidden) 
+	    le_cursor(s, alpha);
 
 	le_tail(s);
     }

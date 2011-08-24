@@ -59,7 +59,10 @@ lsdl$(EXE):  $(DEPS)
 	    -g  /usr/local/lib/libSDL_draw.a
 
 clean:
-	rm ./lgl ./lsdl ./lglpy
+	rm ./lgl ./lsdl ./lglpy;\
+	rm ../libs/yaml-cpp-0.2.5/libyaml-cpp.so*;\
+	rm -rf ../libs/ftgl ../libs/json
+	
 	
 
 ../libs/yaml-cpp-0.2.5/libyaml-cpp.so:
