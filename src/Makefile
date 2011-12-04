@@ -18,7 +18,7 @@ pl=$(shell uname)
 
 ifeq ($(pl),Linux)
 #PYLIBS = -Dpython `/usr/bin/python2.6-config --cflags`  `/usr/bin/python2.6-config --libs ` 
-CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` `curl-config --libs` `curl-config --cflags` -L/usr/lib/libv8.so -lv8 
+CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` `curl-config --libs` `curl-config --cflags` -lv8 
 GLLIBS += -lGL
 # -lSDL_ttf 
 
@@ -31,8 +31,8 @@ CFLIBS += -DWINDOWS -I/usr/include/ncurses -I/usr/local/include/SDL -I/usr/inclu
 
 endif
 
-                                                                       
-CC      =g++ -Woverflow -o $@ lemon.cpp -g -ggdb $(GLLIBS) $(CFLIBS) -std=c++0x -W -Wall -Wextra  -pedantic -ftrapv\
+                                                                       #-std=c++0x
+CC      =clang++ -v -v -v -x c++ -Woverflow -o $@ lemon.cpp -g -ggdb $(GLLIBS) $(CFLIBS)  -W -Wall -Wextra  -pedantic -ftrapv\
 	 -Dlibpng -lpng -Dnerve -lGLU  -lm -Wno-write-strings  -lXcomposite -lXdamage -lXfixes -lXrender -lX11 
 
 

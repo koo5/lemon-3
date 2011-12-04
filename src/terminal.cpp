@@ -369,8 +369,8 @@ struct terminal:public obj
 		    glPushMatrix();
     		    glTranslatef(lok.x,lok.y+22,0);
 		    glScalef(1, -1, 1);
-		    int renderMode = FTGL::RENDER_FRONT | FTGL::RENDER_BACK;
-		//    ftglfont->Render(ftw(s).c_str(), -1, FTPoint(), FTPoint(spacing,0), renderMode);
+//		    int renderMode = FTGL::RENDER_FRONT | FTGL::RENDER_BACK;
+//		    ftglfont->Render(ftw(s).c_str(), -1, FTPoint(), FTPoint(spacing,0), renderMode);
 		    glPopMatrix();
 		}
 	    }

@@ -63,7 +63,8 @@
 using namespace YAML;
 using namespace std;
 
-#include "ftw.c"
+#include "ftw.cpp"
+
 
 
 int w = 1280;
@@ -232,7 +233,8 @@ struct obj:public Serializable
 	active=this;
 //	logit("activating %u", this);
     }
-    virtual void picked(int up, int b,vector<int>&v,int x,int y)
+//    void picked(int up, int b,vector<int>&v, int x, int y)
+    void picked(int, int,vector<int>&, int, int)
     {
 	activate();
 //	logit("activating, up=%i, button=%i, v.size=%u, x=%i. y=%i",up,b,v.size(),x,y);
@@ -342,6 +344,8 @@ vector<string> commandstack;
 #include "logger.cpp"
 logger * loggerface;
 
+
+#include "inpipe.cpp"
 
 void slogit(const char * iFormat, ...)
 {
@@ -899,6 +903,16 @@ void process_event(SDL_Event event)
 		{
 		    //do nothing. be happy that we broke out of WaitEvent and could redraw ourselves
 		}
+		else if(event.user.code== CODE_INPIPE)
+		{
+		    _mutexP(inpipemutex);
+		    if (inform.size()>0)
+		    {
+		    cout << inform.front();
+		    inform.erase(inform.begin());
+		    }
+		    _mutexV(inpipemutex);
+		}
 		break;
 	}
 }
@@ -974,16 +988,17 @@ void lemon (void)
     //dont ask me, i just work here.
 
     loadobjects();
-//objects.push_back(new atlantis);
-    if(!objects.size())
-    {
-    	objects.push_back(loggerface=new logger(-8,0,0,0,70,0));
-	#ifdef GL
+//    objects.push_back(new atlantis);
 //	    objects.push_back(new spectrum_analyzer);
 //	    for(int i=0;i<16;i++)
 //		objects.push_back(new nerverot(-10.0f+20.0f/16.0f*(float)i,0,0,i));
 //	    objects.push_back(new flipflop);
-	objects.push_back(new spectrum_analyzer);
+//	objects.push_back(new spectrum_analyzer);
+
+    if(!objects.size())
+    {
+    	objects.push_back(loggerface=new logger(-8,0,0,0,70,0));
+	#ifdef GL
 
 	#endif
 	objects.push_back(new face("bash"));
@@ -998,12 +1013,17 @@ void lemon (void)
 //	objects.push_back(new fontwatcher);
 	
     }
+    
     maxvol=0;
     int norm=0;
     afterglow=1;
     int lastmousemoved=SDL_GetTicks();
     int lastphysics=SDL_GetTicks();
     int lostphysics = 0;
+    
+    inpipemutex = SDL_CreateMutex();
+    SDL_CreateThread(inpipe ,(void*)0);
+    
     while( !done )
     {
 	SDL_TimerID x=0;
@@ -1085,20 +1105,26 @@ void lemon (void)
 			afterstart[i]->Call(afterstart[i],0,args);
 		afterstart.clear();
 	}
+	
+	
+	
 	if(!done)
 		unlockterms();
-	else
-		saveobjects();
+
 	if (lostphysics) lastphysics = SDL_GetTicks();
 	int t= SDL_GetTicks();
 	physics(t-lastphysics);
 	lastphysics=t;
 	lostphysics = 0;
+
     }
+
+    saveobjects();
     objects.clear();
     font.clear();
     SDL_Quit( );
-}                      
+
+}
 
 string tostring(const v8::String::Utf8Value& value) {
   return *value ? string(*value): string("<string conversion failed>");
@@ -1179,6 +1205,7 @@ int main(int argc, char *argv[])
 	v8::Persistent<v8::Context> context = v8::Context::New(NULL, global);
 	v8::Context::Scope context_scope(context);
 	ifstream in(jsv8);
+
 	if(!in.fail())
 	{
 		string iin, line;
@@ -1187,6 +1214,8 @@ int main(int argc, char *argv[])
 		    getline(in, line);
 		    iin += line;
 		}
+
+		// run honey run
 		v8::Handle<v8::String> source = v8::String::New(iin.c_str());
 		v8::Handle<v8::Script> script = v8::Script::Compile(source);
 		v8::Handle<v8::Value> result = script->Run();
