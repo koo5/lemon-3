@@ -13,14 +13,34 @@ void control(SDLKey key, int uni, int mod)
 	switch (key)
 	{
 		case SDLK_TAB:
-			for_each_object
+		case SDLK_PAGEDOWN:
+		case SDLK_PAGEUP:
+			if ((key==SDLK_PAGEUP) || (mod & (KMOD_RSHIFT|KMOD_LSHIFT)))
+			{
+			    for(int i=objects.size()-1;i>-1;i--) 
+			    { 
+				obj*o=objects.at(i);
+				if (active == o)
+				{
+					if (--i == -1) i = objects.size()-1;
+					objects.at(i)->activate();
+					cam.focus(active->t);
+					break;
+				}
+			    }
+			}
+			else
+			{
+			    for_each_object
 				if (active == o)
 				{
 					if (++i == objects.size()) i = 0;
 					objects.at(i)->activate();
 					cam.focus(active->t);
 					break;
-				}endf
+				}
+			    endf
+			}
 			if (!active && objects.size()) objects.at(0)->activate();
 			break;
 		case SDLK_f:
@@ -46,9 +66,25 @@ void control(SDLKey key, int uni, int mod)
 			objects.push_back(active = new face(rightmost()->t.x + 2, 0, 0));
 			cam.focus(active->t);
 			break;
+		case SDLK_UP:
+		{
+			cam.dst.self.z++;
+			cam.move();
+			dirty = 1;
+			break;
+		}
+		case SDLK_DOWN:
+		{
+			cam.dst.self.z--;
+			cam.move();
+			dirty = 1;
+			break;
+		}
 		case SDLK_LEFT:
 		{
-			if (active) active->spin.z += 0.03;
+			if (active)
+//			{
+//			    cam.focus(new v3d(active.t.x-1,active.t.y,active.t.z))
 			dirty = 1;
 			break;
 		}

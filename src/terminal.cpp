@@ -177,19 +177,19 @@ struct terminal:public obj
 	    switch(key)
 	    {
 		case SDLK_DELETE:
+		    resizooo(-1,0,k);
+		    break;
 		case SDLK_END:
 		    resizooo(0,1,k);
 		    break;
 		case SDLK_INSERT:
+		    resizooo(1,0,k);
+		    break;
 		case SDLK_HOME:
 		    resizooo(0,-1,k);
 		    break;
-		case SDLK_PAGEUP:
-		    resizooo(-1,0,k);
-		    break;
-		case SDLK_PAGEDOWN:
-		    resizooo(1,0,k);
-		    break;
+		//case SDLK_PAGEUP:
+		//case SDLK_PAGEDOWN:
 		case SDLK_o:
 		    fontnum++;
 		    if (fontnum > 1)
@@ -369,7 +369,7 @@ struct terminal:public obj
 	    glPushMatrix();
 	    glTranslatef(0,100,0);
 	    glBegin(GL_QUADS);
-	    glColor4f(0,1,1,0.2*alpha);
+	    glColor4f(0,1,1,0.1*alpha);
 	    glVertex2f(-1,0);
 	    glVertex2f(1,0);
 	    glVertex2f(2,10);
@@ -387,7 +387,7 @@ struct terminal:public obj
 	glRotatef(SDL_GetTicks()/40,0,0,1);
     	glBegin(GL_LINE_LOOP);
         int w=13;
-        glColor4f(1,0,0,alpha*0.3);
+        glColor4f(1,0,0,alpha*0.9);
 	glVertex2f(-w,-w);
 	glVertex2f(+w,-w);
 	glVertex2f(+w,+w);
@@ -417,6 +417,7 @@ struct terminal:public obj
 
 	le_halo(lok, alpha);
 	le_square(lok, alpha);
+
     }
     
     void le_letter(xy lok, int theme, double alpha, unsigned int ch, int attr)

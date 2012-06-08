@@ -114,9 +114,9 @@ float maxvol;
 #include "../demos/atlantis/atlantis.c"
 #include "../demos/flipflop.c"
 #include "demos/spectrum_analyzer.cpp"
-#ifdef nerve
+//#ifdef nerve
 #include "demos/nerverot.cpp"
-#endif
+//#endif
 //#include <string>
 //#include "mplayer.cpp"
 //#include "compositing.cpp"
@@ -397,16 +397,16 @@ void lemon(void)
 	updatelinesmooth();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif
-//    glEnable(GL_TEXTURE_2D);    
+	glEnable(GL_TEXTURE_2D);    
 
-//    objects.push_back(new atlantis());
-//	    objects.push_back(new spectrum_analyzer);
-//	    for(int i=0;i<16;i++)
-//		objects.push_back(new nerverot(-10.0f+20.0f/16.0f*(float)i,0,0,i));
-//	    objects.push_back(new flipflop);
+//      objects.push_back(new atlantis());
+	//objects.push_back(new spectrum_analyzer);
+//	for(int i=0;i<16;i++)
+	    objects.push_back(new nerverot());
+	//objects.push_back(new flipflop);
 //	objects.push_back(new spectrum_analyzer);
 
-	if (!objects.size())
+//	if (!objects.size())
 	{
 //    	objects.push_back(loggerface=new logger(-8,0,0,0,70,0));
 #ifdef GL
@@ -415,7 +415,9 @@ void lemon(void)
 //	objects.push_back(new face("bash"));
 
 //	objects.push_back(active=new face("bash",1.0,0.0,3.0,0.0,90.0,0.0));
-		objects.push_back(active = new face("bash", 0.0, 0.0, 0, 0, 0, 0));
+
+	objects.push_back(active = new face("bash", 0.0, 0.0, 0, 0, 0, 0));
+
 //	objects.push_back(active=new face("bash",-1.0,0.0,3.0,0.0,270.0,0.0));
 //	objects.push_back(new fontwatcher);
 
@@ -439,8 +441,9 @@ void lemon(void)
 		SDL_TimerID x = 0;
 		lockterms();
 		k = SDL_GetKeyState(NULL);
-			
-		dirty |= cam.set();
+		
+		int cam_dirty;	
+		dirty |= cam_dirty = cam.set();
 
 		if ((dirty || anything_dirty()) 
 		&& (SDL_GetAppState() & SDL_APPACTIVE))
@@ -449,7 +452,7 @@ void lemon(void)
 			draw();
 			nothing_dirty();
 			dirty=0;
-			if (cam.set() || anything_dirty()) x = SDL_AddTimer(5, TimerCallback, 0);
+			if (cam_dirty || anything_dirty()) x = SDL_AddTimer(5, TimerCallback, 0);
 		}
 		else
 			lostphysics = 1;
