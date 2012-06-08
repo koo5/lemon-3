@@ -1,12 +1,6 @@
 class mplayer:public obj
 {
     public:
-    SAVE(mplayer){
-    	YAML_EMIT_PARENT_MEMBERS(out,obj)
-    }
-    LOAD{
-    	YAML_LOAD_PARENT_MEMBERS(doc,obj)
-    }
     int pos;
     int twist;
     vector<string>list;    

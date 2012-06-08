@@ -10,11 +10,6 @@ struct button
 class buttons:public obj
 {
     public:
-    SAVE(buttons)
-    {
-	YAML_EMIT_PARENT_MEMBERS(out,obj)
-    }
-    LOAD{YAML_LOAD_PARENT_MEMBERS(doc,obj)}
     vector<button> buttonz;
     buttons()
     {

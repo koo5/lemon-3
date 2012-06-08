@@ -128,14 +128,6 @@ class pixel_city: public obj
 	RenderTerm ();
 	CameraTerm ();
     }
-    SAVE(pixel_city)
-    {
-	YAML_EMIT_PARENT_MEMBERS(out,obj)
-    }
-    LOAD
-    {
-	YAML_LOAD_PARENT_MEMBERS(doc,obj)
-    }
 };
 map<string,string>pixel_city_ini;
 #define FORMAT_VECTOR       "%f %f %f"

@@ -4,6 +4,8 @@
 #include <iostream>
 #include "rote-3/wtf.h"
 
+using namespace std;
+
 struct glyph
 {
     int left, right;
@@ -234,7 +236,7 @@ void sizes(glyph&g)
 void loadfont(string fln)
 {
     cout << "loading font " << fln << " ...";
-    ifstream ff(fln,std::ios::in);
+    ifstream ff(fln.c_str(),std::ios::in);
     if (!ff.good())
     {
         cout << "cant load font from "<<fln<<endl;

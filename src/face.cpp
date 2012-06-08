@@ -7,7 +7,7 @@
 #define CODE_QUIT 1
 #define CODE_FNFLCHANGED 2
 #define for_each_face for_each_object if (dynamic_cast< face*>(o)){face*f=dynamic_cast< face*>(o);
-
+#define endfendf }}
 
 
 
@@ -63,24 +63,15 @@ int update_terminal(void *data)
 struct face:public terminal
 {
     moomoo upd_t_data;
-    SAVE(face)
-    {
-	YAML_EMIT_PARENT_MEMBERS(out,terminal)
-    }
-    LOAD
-    {
-    	YAML_LOAD_PARENT_MEMBERS(doc,terminal)
-    }
     face(char* run, double x, double y, double z, double a, double b, double c)
     {
 	obj::t.x=x;obj::t.y=y;obj::t.z=z;
 	r.x=a;r.y=b;r.z=c;
 	add_terminal(run);
     }
-    face(double x, double y, double z, double a, double b, double c)
+    face(double x, double y, double z)
     {
 	obj::t.x=x;obj::t.y=y;obj::t.z=z;
-	r.x=a;r.y=b;r.z=c;
 	add_terminal("bash");
     }
     face(float x, float y, int c, int r)
@@ -122,6 +113,7 @@ struct face:public terminal
 	upd_t_data.t=t;
 	logit("upd_t_data.lock=%i",upd_t_data.lock);
 	upd_t_data.thr=SDL_CreateThread(update_terminal, (void *)&upd_t_data);
+	recompute_scales();
     }
     void add_terminal(const char *run)
     {

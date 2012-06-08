@@ -62,9 +62,9 @@ void UTF8Encode4BytesUnicode(std::vector< unsigned > input,
    }
 }
 
-string ftw(std::vector< unsigned > input)
+std::string ftw(std::vector< unsigned > input)
 {
-    string res;
+    std::string res;
     std::vector< byte > output;
     UTF8Encode4BytesUnicode(input, output);
     for(unsigned int i=0; i<output.size(); i++)

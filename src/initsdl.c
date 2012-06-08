@@ -1,5 +1,5 @@
 
-SDL_Surface *initsdl(int w,int h,int *bppp,Uint32 flags)
+SDL_Surface *initsdl(int *w,int *h,int *bppp,Uint32 flags)
 {
 	// SDL_INIT_EVENTTHREAD
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
@@ -49,7 +49,7 @@ SDL_Surface *initsdl(int w,int h,int *bppp,Uint32 flags)
 	
 	video_flags|=(SDL_RESIZABLE|SDL_ANYFORMAT|SDL_DOUBLEBUF);
 	
-	s= SDL_SetVideoMode( w, h, bpp, video_flags );
+	s= SDL_SetVideoMode( *w, *h, bpp, video_flags );
 	if (s == NULL ) {
 		fprintf(stderr, "Couldn't set video mode: %s\n", SDL_GetError());
 		SDL_Quit();
@@ -81,11 +81,17 @@ SDL_Surface *initsdl(int w,int h,int *bppp,Uint32 flags)
 	
 	printf("mustlock=%i\n", SDL_MUSTLOCK(s));
 
+	const SDL_VideoInfo* m = SDL_GetVideoInfo();
+	*w=m->current_w;
+	*h=m->current_h;
 	*bppp=bpp;
 	char * x= (char*)malloc(20);
 	if(x&&SDL_VideoDriverName(x,20))
 	    printf("Current SDL video driver is %s.\n",x);
+    printf("%i x %i\n",*w,*h);
 	   
 //#endif
+
+
 	return s;
 }

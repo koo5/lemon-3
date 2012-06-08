@@ -44,32 +44,15 @@ struct terminal:public obj
     unsigned int selstartx,selstarty,selendx,selendy;
     int getDirty(){return dirty||t->dirty;}
     void setClean(){t->dirty=0;obj::setClean();}
-    SAVE(terminal)
+    void recompute_scales()
     {
-	YAML_EMIT_PARENT_MEMBERS(out,obj)
-	int cols, rows;
-	cols=t->cols;
-	rows=t->rows;
-	vsave(cols)
-	vsave(rows)
-	vsave(fontnum)
-	vsave(bgalpha)
-	vsave(spacing)
+	if(t){
+	    s.x = 2.0/26/t->cols;
+	    s.y = 2.0/26/t->rows;
+	
+	}
     }
-    LOAD
-    {
-    	YAML_LOAD_PARENT_MEMBERS(doc,obj)
-    	int cols=100;
-    	int rows=100;
-    	vload(cols)
-    	vload(rows)
-    	vload(fontnum)
-    	vload(bgalpha)
-    	vload(spacing)
-        cout << cols<<" "<<rows<<endl;
-	rote_vt_resize(t,rows,cols);
-	rote_vt_clear(t);
-    }
+
     void init()
     {
 	bgalpha = 0.3;
@@ -79,9 +62,10 @@ struct terminal:public obj
 	oldcrow=oldccol=-1;
 	lastrotor=rotor=0;
 	selstartx=selstarty=selendx=selendy=-1;
-	s.x=0.002;
-	s.y=-0.005;
-	s.z=0.002;
+	s.x=0.003;
+	s.y=-0.006;
+	s.z=1;
+	s.z=0.0001;
 	obj::t.x=obj::t.y=obj::t.z=0;
 	r.x=r.y=r.z=0;
     }
@@ -118,7 +102,7 @@ struct terminal:public obj
         if((!xx+lastxresize||!yy+lastyresize)||(SDL_GetTicks()-last_resize>100)||!last_resize)
         {
     	    rote_vt_resize(t, t->rows+yy,t->cols+xx);
-    	    if (fontnum == 1)
+//    	    if (fontnum == 1)
     		//crash me baby one more time
     		rote_vt_clear(t);
 	    last_resize=SDL_GetTicks();
@@ -126,7 +110,7 @@ struct terminal:public obj
 	}
 	lastxresize=xx;
 	lastyresize=yy;
-	
+	recompute_scales();
     }
 
     void printstatus(const char * iFormat, ...)
@@ -270,8 +254,6 @@ struct terminal:public obj
 	else
 	{
 	    //if((active==this)&&!t->cursorhidden)ghost();
-	    if (ftglfont->Error())
-		fontnum = 0;
     	    draw_terminal();
     	}
     }
@@ -293,11 +275,10 @@ struct terminal:public obj
 
     void tex_letter(xy lok, unsigned ch)
     {
+	ch++;
         glPushMatrix();
         glTranslatef(lok.x,lok.y+22,0);
 	glScalef(1, -1, 1);
-	if (ch)
-	    ftglfont->Render("&ch",1);
 	glPopMatrix();
     }
     
@@ -369,8 +350,6 @@ struct terminal:public obj
 		    glPushMatrix();
     		    glTranslatef(lok.x,lok.y+22,0);
 		    glScalef(1, -1, 1);
-//		    int renderMode = FTGL::RENDER_FRONT | FTGL::RENDER_BACK;
-//		    ftglfont->Render(ftw(s).c_str(), -1, FTPoint(), FTPoint(spacing,0), renderMode);
 		    glPopMatrix();
 		}
 	    }
@@ -381,7 +360,7 @@ struct terminal:public obj
     {
 	glPushMatrix();
         glTranslatef(lok.x+13,lok.y+13,0);
-	glRotatef(SDL_GetTicks()/42,0,1,0);
+	glRotatef(SDL_GetTicks()/12,0,0,1);
 	int i;
 	int steps=10;
 	for (i=0; i<360; i+=steps)
@@ -390,7 +369,7 @@ struct terminal:public obj
 	    glPushMatrix();
 	    glTranslatef(0,100,0);
 	    glBegin(GL_QUADS);
-	    glColor4f(1,1,0,0.2*alpha);
+	    glColor4f(0,1,1,0.2*alpha);
 	    glVertex2f(-1,0);
 	    glVertex2f(1,0);
 	    glVertex2f(2,10);
@@ -405,10 +384,23 @@ struct terminal:public obj
     {
     	glPushMatrix();
 	glTranslatef(lok.x+13,lok.y+13,0);
-	glRotatef(SDL_GetTicks()/100,0,0,1);
+	glRotatef(SDL_GetTicks()/40,0,0,1);
     	glBegin(GL_LINE_LOOP);
         int w=13;
-        glColor4f(1,0,0,alpha);
+        glColor4f(1,0,0,alpha*0.3);
+	glVertex2f(-w,-w);
+	glVertex2f(+w,-w);
+	glVertex2f(+w,+w);
+	glVertex2f(-w,+w);
+	glEnd();
+	glPopMatrix();
+
+    	glPushMatrix();
+	glTranslatef(lok.x+13,lok.y+13,0);
+	glRotatef(SDL_GetTicks()/20,0,0,-1);
+    	glBegin(GL_LINE_LOOP);
+        w=62;
+        glColor4f(0,1,0,alpha*0.4);
 	glVertex2f(-w,-w);
 	glVertex2f(+w,-w);
 	glVertex2f(+w,+w);
@@ -454,13 +446,11 @@ struct terminal:public obj
 	}
     }
 
-    void le_flush(vector<unsigned> s, xy lok)
+    void le_flush(vector<unsigned>, xy lok)
     {
 	glPushMatrix();
         glTranslatef(lok.x,lok.y+22,0);
 	glScalef(1, -1, 1);
-	int renderMode = FTGL::RENDER_FRONT | FTGL::RENDER_BACK;
-	ftglfont->Render(ftw(s).c_str(), -1, FTPoint(), FTPoint(spacing,0), renderMode);
 	glPopMatrix();
     }
     

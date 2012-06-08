@@ -93,25 +93,6 @@ struct gggw:public obj
     gtext * items;
     double down;
     double side;
-    SAVE(gggw)
-    {
-	YAML_EMIT_PARENT_MEMBERS(out,obj)
-	save(url)
-	save(down)
-	save(side)
-	save(morph)
-	save(history);
-    }
-    LOAD
-    {
-    	YAML_LOAD_PARENT_MEMBERS(doc,obj)
-    	load(url)
-    	load(down)
-    	load(side)
-    	load(morph)
-    	load(history);
-    	uri.settext(url.c_str());
-    }
     gggw(const string uurl="root.cz")
     {
 	active=0;
@@ -362,14 +343,6 @@ static size_t write_raw_callback(void *ptr, size_t size, size_t nmemb, void *dat
 
 struct ggg:public gggw
 {
-    SAVE(ggg)
-    {
-	YAML_EMIT_PARENT_MEMBERS(out,gggw)
-    }
-    LOAD
-    {
-    	YAML_LOAD_PARENT_MEMBERS(doc,gggw)
-    }
     ggg(){}
     void go()
     {

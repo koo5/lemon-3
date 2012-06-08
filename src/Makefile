@@ -1,8 +1,8 @@
 
-DEPS  =  ../rote-3/rote.c lemon.cpp ../* demos/atlantis/* demos/nerverot/*  ../libs/yaml-cpp-0.2.5/libyaml-cpp.so  ../libs/json/lib/libjson.so ../libs/ftgl/lib/libftgl.so
+DEPS  =  ../rote-3/rote.c *.cpp *h *c ../*  ../demos/atlantis/* ../demos/nerverot/* ../libs/json/lib/libjson.so
 GLLIBS  =  -DGL -DHAVE_OPENGL -lGL
 CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
-`pkg-config ../libs/json/lib/pkgconfig/json.pc --cflags --libs` `pkg-config ../libs/ftgl/lib/pkgconfig/ftgl.pc --cflags --libs` \
+`pkg-config ../libs/json/lib/pkgconfig/json.pc --cflags --libs` \
   -I/usr/local/include \
  -L/usr/lib -L/usr/X11R6/lib  -lutil -L/usr/local/lib  \
     -L/usr/local/lib   `pkg-config --libs x11`\
@@ -11,14 +11,14 @@ CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
         -I/usr/local/include/vte -lncurses -L/usr/X11R6/lib \
           ../rote-3/inject_csi.c ../rote-3/inject.c\
            ../rote-3/rote_keymap.c ../rote-3/rote.c \
-           ../rote-3/wtf.c -lncurses  \
-           ../libs/yaml-cpp-0.2.5/libyaml-cpp.so
-
+           ../rote-3/wtf.c -lncurses \
+           -lutil
 pl=$(shell uname)
 
 ifeq ($(pl),Linux)
 #PYLIBS = -Dpython `/usr/bin/python2.6-config --cflags`  `/usr/bin/python2.6-config --libs ` 
-CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` `curl-config --libs` `curl-config --cflags` -lv8 
+CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` -lv8  
+#`curl-config --libs` `curl-config --cflags` 
 GLLIBS += -lGL
 # -lSDL_ttf 
 
@@ -32,16 +32,16 @@ CFLIBS += -DWINDOWS -I/usr/include/ncurses -I/usr/local/include/SDL -I/usr/inclu
 endif
 
                                                                        #-std=c++0x
-CC      =clang++ -v -v -v -x c++ -Woverflow -o $@ lemon.cpp -g -ggdb $(GLLIBS) $(CFLIBS)  -W -Wall -Wextra  -pedantic -ftrapv\
-	 -Dlibpng -lpng -Dnerve -lGLU  -lm -Wno-write-strings  -lXcomposite -lXdamage -lXfixes -lXrender -lX11 
+CC      =clang++ -v -v -v -std=c++11 -Woverflow -o $@ lemon.cpp -g -ggdb $(GLLIBS) $(CFLIBS)  -W -Wall -Wextra  -pedantic -ftrapv\
+	-Dnerve -lGLU  -lm -Wno-write-strings  -lXcomposite -lXdamage -lXfixes -lXrender -lX11 
 
 
 
 #pixelcity:
-PCSRCS    = $(wildcard demos/lemonized-pixel-city/*.cpp)
-PCOBJS    = $(patsubst %.cpp,%.o,$(PCSRCS))
-CC += -Dhas_pixel_city -Idemos/lemonized-pixel-city/ demos/lemonized-pixel-city/*.o
-DEPS += $(PCOBJS)
+#PCSRCS    = $(wildcard ../demos/lemonized-pixel-city/*.cpp)
+#PCOBJS    = $(patsubst %.cpp,%.o,$(PCSRCS))
+#CC += -Dhas_pixel_city -I../demos/lemonized-pixel-city/ demos/lemonized-pixel-city/*.o
+#DEPS += $(PCOBJS)
 
 
 
@@ -60,15 +60,9 @@ lsdl$(EXE):  $(DEPS)
 
 clean:
 	rm ./lgl ./lsdl ./lglpy;\
-	rm ../libs/yaml-cpp-0.2.5/libyaml-cpp.so*;\
 	rm -rf ../libs/ftgl ../libs/json
 	
 	
-
-../libs/yaml-cpp-0.2.5/libyaml-cpp.so:
-	cd ../libs/yaml-cpp-0.2.5&&\
-	cmake CMakeLists.txt &&\
-	make
 
 submodules:
 	cd ../&&\
@@ -85,11 +79,6 @@ demos/lemonized-pixel-city/%.o: demos/lemonized-pixel-city/%.cpp
 ../libs/json/lib/libjson.so:
 	cd ../libs/json-c-0.9&&\
 	./configure --prefix=`pwd`/../json &&\
-	make&&make install
-
-../libs/ftgl/lib/libftgl.so:
-	cd ../libs/ftgl-2.1.3-rc5&&\
-	./configure --prefix=`pwd`/../ftgl &&\
 	make&&make install
 
 

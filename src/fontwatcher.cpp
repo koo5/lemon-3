@@ -3,14 +3,6 @@ int fontwatcherthread(void *data);
 class fontwatcher:public obj
 {
     public:
-    SAVE(fontwatcher)
-    {
-	YAML_EMIT_PARENT_MEMBERS(out,obj)
-    }
-    LOAD
-    {
-	YAML_LOAD_PARENT_MEMBERS(doc,obj)
-    }
     SDL_Thread* t;
     int i,f;
     float osize;

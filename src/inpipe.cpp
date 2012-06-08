@@ -1,3 +1,4 @@
+
 #define CODE_INPIPE 4
 
 SDL_mutex * inpipemutex;

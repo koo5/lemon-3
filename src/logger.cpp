@@ -1,14 +1,6 @@
 class logger:public terminal
 {
     public:
-    SAVE(logger)
-    {
-	YAML_EMIT_PARENT_MEMBERS(out,terminal)
-    }
-    LOAD
-    {
-	YAML_LOAD_PARENT_MEMBERS(doc,terminal)
-    }
    logger(double x, double y, double z, double a, double b, double c)
     {
 	obj::t.x=x;obj::t.y=y;obj::t.z=z;
