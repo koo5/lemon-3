@@ -1,5 +1,7 @@
 #include <boost/python.hpp>
+#ifdef v8
 #include <v8.h>
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -45,8 +47,10 @@ string fnfl; //font file
 string clfl; //colors
 string dmps, jsv8;
 SDL_Surface* s;
+#ifdef v8
 vector<v8::Persistent<v8::Function> > afterstart;
 vector<string> commandstack;
+#endif
 float maxvol;
 
 #include "terminal.cpp"
@@ -402,13 +406,15 @@ void lemon(void)
 			gofullscreen = 0;
 			dirty = 1;
 		}
-		if (afterstart.size())
-		{
+		#ifdef v8
+			if (afterstart.size())
+			{
 			v8::Handle<v8::Value>* args = NULL;
 			for (unsigned i = 0; i < afterstart.size(); i++)
 				afterstart[i]->Call(afterstart[i], 0, args);
 			afterstart.clear();
-		}
+			}
+		#endif
 
 		if (!done) unlockterms();
 
@@ -425,39 +431,12 @@ void lemon(void)
 
 }
 
-string tostring(const v8::String::Utf8Value& value)
-{
-	return *value ? string(*value) : string("<string conversion failed>");
-}
+#include "js.cpp"
+#define py
+#include "py.cpp"
 
-v8::Handle<v8::Value> LogCallback(const v8::Arguments& args)
-{
-	if (args.Length() < 1) return v8::Undefined();
-	v8::HandleScope scope;
-	v8::Handle<v8::Value> arg = args[0];
-	v8::String::Utf8Value value(arg);
-	cout << tostring(value) << endl;
-	return v8::Undefined();
-}
-
-v8::Handle<v8::Value> registerAfterStart(const v8::Arguments& args)
-{
-	if (args.Length() < 1) return v8::Undefined();
-	v8::HandleScope scope;
-	v8::Handle<v8::Value> arg = args[0];
-	if (!arg->IsFunction())
-	{
-		cout << "must register a function" << endl;
-		return v8::Undefined();
-	}
-	v8::Handle<v8::Function> fun = v8::Handle<v8::Function>::Cast(arg);
-	afterstart.push_back(v8::Persistent<v8::Function>::New(fun));
-	cout << "registered." << endl;
-	return v8::Undefined();
-}
 
 #include "getexecname.c"
-
 void compute_data_file_paths()
 {
 	string path = string(needexepath()) + string("../data/");
@@ -466,103 +445,6 @@ void compute_data_file_paths()
 	dmps = path + string("errordumps/");
 	jsv8 = path + string("javascript.js");
 }
-
-v8::Persistent<v8::Context> *js;
-
-void init_v8()
-{
-	v8::HandleScope handle_scope;
-	v8::Handle<v8::ObjectTemplate> global = v8::ObjectTemplate::New();
-	global->Set(v8::String::New("log"), v8::FunctionTemplate::New(LogCallback));
-	global->Set(v8::String::New("registerafterstart"),
-			v8::FunctionTemplate::New(registerAfterStart));
-	*js = v8::Context::New(NULL, global);
-	v8::Context::Scope context_scope(*js);
-	ifstream in(jsv8.c_str());
-
-	if (!in.fail())
-	{
-		string iin, line;
-		while (in.good())
-		{
-			getline(in, line);
-			iin += line;
-		}
-
-		// run honey run
-		v8::Handle<v8::String> source = v8::String::New(iin.c_str());
-		v8::Handle<v8::Script> script = v8::Script::Compile(source);
-		v8::Handle<v8::Value> result = script->Run();
-	}
-}
-
-
-void kill_v8()
-{
-	js->Dispose();
-}
-
-void init_py()
-{
-    Py_InitializeEx(0);
-}
-
-void baf()
-{
-    printf("BAF\n");
-}
-
-//using namespace boost::python;
-
-BOOST_PYTHON_MODULE(lemon)
-{
-    boost::python::def("baf", baf);
-}
-
-void greet()
-{ 
-  initlemon();
-  boost::python::object main = boost::python::import("__main__");
-  
-  // Retrieve the main module's namespace
-  boost::python::object global(main.attr("__dict__"));
-
-
-  try
-  {
-
-
-  // Define greet function in Python.
-  boost::python::object result = boost::python::exec(
-  
-    "import lemon                   \n"
-    "def greet():                   \n"
-    "  lemon.baf()                 \n"
-    "  return 'Hello from Python!'  \n",
-    global, global);
-
-  // Create a reference to it.
-  boost::python::object greet = global["greet"];
-
-  // Call it.
-	std::string message = boost::python::extract<std::string>(greet());
-	std::cout << message << std::endl;
-  }
-  catch (boost::python::error_already_set &e)
-  {
-	PyErr_Print();
-  }
-}
-
-void kill_py()
-{
-	/*Bugs and caveats: The destruction of modules and objects in modules is done in random order; this may cause destructors (__del__() methods) to fail when they depend on other objects (even functions) or modules. Dynamically loaded extension modules loaded by Python are not unloaded. Small amounts of memory allocated by the Python interpreter may not be freed (if you find a leak, please report it). Memory tied up in circular references between objects is not freed. Some memory allocated by extension modules may not be freed. Some extensions may not work properly if their initialization routine is called more than once; this can happen if an application calls Py_Initialize() and Py_Finalize() more than once.*/
-
-
-	Py_Finalize();
-	
-}
-
 
 int main(int argc, char *argv[])
 {
