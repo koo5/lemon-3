@@ -1,3 +1,4 @@
+#include <boost/python.hpp>
 #include <v8.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,76 +32,22 @@ using namespace std;
 #include "../gltext.c"
 #include "mathhelp.c"
 #include "cam.cpp"
+#include "quack.c"
+#include "obj.cpp"
+#include "settingz.cpp"
 
 camera cam;
-
-int w = 1280;
-int h = 800;
-
+int w = 1240;
+int h = 700;
 float znear = 1;
 float zfar = 20;
-
-vector<v8::Persistent<v8::Function> > afterstart;
-
 string fnfl; //font file
 string clfl; //colors
 string dmps, jsv8;
-
 SDL_Surface* s;
-
-void gle(void)
-{
-#ifdef GL
-	GLenum gl_error;
-	gl_error = glGetError();
-	if (gl_error != GL_NO_ERROR)
-	{
-		if (gl_error == GL_STACK_UNDERFLOW)
-			logit("QUACK QUACK QUACK, UNDERFLOVING STACK\n");
-		else
-			if (gl_error == GL_STACK_OVERFLOW)
-				logit("QUACK QUACK QUACK, OVERFLOVING STACK\n");
-			else
-				if (gl_error == GL_INVALID_OPERATION)
-					logit("INVALID OPERATION, PATIENT EXPLODED\n");
-				else
-					if (gl_error == GL_INVALID_VALUE)
-						logit("GL_INVALID_VALUE");
-					else
-						logit("OpenGL error: 0x%X\n", gl_error);
-	}
-#endif
-}
-void sdle(void)
-{
-	char* sdl_error;
-	sdl_error = SDL_GetError();
-	if (sdl_error[0] != '\0')
-	{
-		logit("testgl: SDL error '%s'\n", sdl_error);
-		SDL_ClearError();
-	}
-}
-
-#include "obj.cpp"
-
-struct Settingz
-{
-		int32_t line_antialiasing;
-		int32_t givehelp;
-		double lv; //glLineWidth
-		Settingz()
-		{
-			line_antialiasing = 0;
-			givehelp = 0;
-			lv = 1;
-		}
-} settingz;
-
+vector<v8::Persistent<v8::Function> > afterstart;
 vector<string> commandstack;
-
-#define for_each_object for(unsigned int i=0;i<objects.size();i++) { obj*o=objects.at(i);
-#define endf }
+float maxvol;
 
 #include "terminal.cpp"
 #include "face.cpp"
@@ -108,9 +55,6 @@ vector<string> commandstack;
 #include "logger.cpp"
 logger * loggerface;
 #include "logmelogme.cpp"
-
-float maxvol;
-
 #include "../demos/atlantis/atlantis.c"
 #include "../demos/flipflop.c"
 #include "demos/spectrum_analyzer.cpp"
@@ -127,69 +71,12 @@ float maxvol;
 //#include "listdir.c"
 //#include "buttons.cpp"
 //#include "ggg.cpp"
+#include "osk.cpp"
 
-void erase(obj * o)
-{
-	if (active == o) active = 0;
-	for (unsigned int i = 0; i < objects.size(); i++)
-		if (objects.at(i) == o) objects.erase(objects.begin() + i);
-}
-void erase(int i)
-{
-	if (active == objects.at(i)) active = 0;
-	objects.erase(objects.begin() + i);
-}
-
-SDL_Rect *SDLRect(Uint16 x, Uint16 y, Uint16 w, Uint16 h)
-{
-	static SDL_Rect xx;
-	xx.x = x;
-	xx.y = y;
-	xx.w = w;
-	xx.h = h;
-	return &xx;
-}
-
-#ifdef GL
+#include "gl.c"
 
 
-
-void resetviewport(void)
-{
-#ifdef GL
-	glViewport(0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h);
-#endif
-}
-
-void viewmatrix()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	//glFrustum(1, -1, 1, -1, 1, 20);
-	gluPerspective(90,1,1,20);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(  cam.now.self.x, cam.now.self.y,
-				cam.now.self.z, cam.now.look.x,
-				cam.now.look.y, cam.now.look.z, 0, -1, 0);
-
-	plogit("gluLookAt(%lf, %lf, %lf, %lf, %lf, %lf", cam.now.self.x, cam.now.self.y, cam.now.self.z, cam.now.look.x,
-			cam.now.look.y, cam.now.look.z);
-}
-
-void resetmatrices(void)
-{
-#ifdef GL
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-#endif
-}
-
-
-
-#include <limits>
+//#include <limits>
 
 void pick(int up, int button, int x, int y)
 {
@@ -264,7 +151,6 @@ void vispick()
 	glPopMatrix();
 }
 
-#endif
 
 Uint32 TimerCallback(Uint32 interval, void *param)
 {
@@ -276,9 +162,9 @@ Uint32 TimerCallback(Uint32 interval, void *param)
 	return interval;
 }
 
+
 void updatelinesmooth()
 {
-#ifdef GL
 	if (settingz.line_antialiasing)
 	{
 		logit("antialiasing");
@@ -289,8 +175,8 @@ void updatelinesmooth()
 		logit("not antialiasing");
 		glDisable(GL_LINE_SMOOTH);
 	}
-#endif
 }
+
 
 void physics(int t)
 {
@@ -387,7 +273,6 @@ void lemon(void)
 			SDL_DEFAULT_REPEAT_INTERVAL / 3);
 	loadfont(fnfl);
 	loadcolors();
-#ifdef GL
 	gle();
 	resetviewport();
 	resetmatrices();
@@ -396,22 +281,18 @@ void lemon(void)
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	updatelinesmooth();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-#endif
 	glEnable(GL_TEXTURE_2D);    
 
 //      objects.push_back(new atlantis());
 	//objects.push_back(new spectrum_analyzer);
 //	for(int i=0;i<16;i++)
-	    objects.push_back(new nerverot());
+//	    objects.push_back(new nerverot(0,0,10));
 	//objects.push_back(new flipflop);
 //	objects.push_back(new spectrum_analyzer);
 
 //	if (!objects.size())
 	{
 //    	objects.push_back(loggerface=new logger(-8,0,0,0,70,0));
-#ifdef GL
-
-#endif
 //	objects.push_back(new face("bash"));
 
 //	objects.push_back(active=new face("bash",1.0,0.0,3.0,0.0,90.0,0.0));
@@ -479,7 +360,7 @@ void lemon(void)
 		{
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			pick(0, 0, x, y);
+			//pick(0, 0, x, y);
 			mousejustmoved = 0;
 		}
 		if (gofullscreen)
@@ -576,24 +457,27 @@ v8::Handle<v8::Value> registerAfterStart(const v8::Arguments& args)
 }
 
 #include "getexecname.c"
-int main(int argc, char *argv[])
+
+void compute_data_file_paths()
 {
 	string path = string(needexepath()) + string("../data/");
-	if (argc == 3)
-		if (strcmp(argv[1], "-e") == 0) commandstack.push_back(string(argv[2]));
-
 	fnfl = path + string("l1");
 	clfl = path + string("colors");
 	dmps = path + string("errordumps/");
 	jsv8 = path + string("javascript.js");
+}
 
+v8::Persistent<v8::Context> *js;
+
+void init_v8()
+{
 	v8::HandleScope handle_scope;
 	v8::Handle<v8::ObjectTemplate> global = v8::ObjectTemplate::New();
 	global->Set(v8::String::New("log"), v8::FunctionTemplate::New(LogCallback));
 	global->Set(v8::String::New("registerafterstart"),
 			v8::FunctionTemplate::New(registerAfterStart));
-	v8::Persistent<v8::Context> context = v8::Context::New(NULL, global);
-	v8::Context::Scope context_scope(context);
+	*js = v8::Context::New(NULL, global);
+	v8::Context::Scope context_scope(*js);
 	ifstream in(jsv8.c_str());
 
 	if (!in.fail())
@@ -610,9 +494,47 @@ int main(int argc, char *argv[])
 		v8::Handle<v8::Script> script = v8::Script::Compile(source);
 		v8::Handle<v8::Value> result = script->Run();
 	}
+}
 
+
+void kill_v8()
+{
+	js->Dispose();
+}
+
+void init_py()
+{
+    Py_Initialize();
+}
+
+void greet()
+{ 
+  // Retrieve the main module.
+  boost::python::object main = boost::python::import("__main__");
+  
+  // Retrieve the main module's namespace
+  boost::python::object global(main.attr("__dict__"));
+
+  // Define greet function in Python.
+  boost::python::object result = boost::python::exec(
+    "def greet():                   \n"
+    "   return 'Hello from Python!' \n",
+    global, global);
+
+  // Create a reference to it.
+  boost::python::object greet = global["greet"];
+
+  // Call it.
+  std::string message = boost::python::extract<std::string>(greet());
+  std::cout << message << std::endl;
+}
+
+
+int main(int argc, char *argv[])
+{
+	compute_data_file_paths();
+	
 	lemon();
-	context.Dispose();
 	return 0;
 }
 

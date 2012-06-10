@@ -1,5 +1,5 @@
 
-DEPS  =  ../rote-3/rote.c *.cpp *h *c ../*  ../demos/atlantis/* ../demos/nerverot/* ../libs/json/lib/libjson.so
+DEPS  =  ../rote-3/rote.c demos/* *.cpp *h *c ../*  ../demos/atlantis/* ../demos/nerverot/* ../libs/json/lib/libjson.so
 GLLIBS  =  -DGL -DHAVE_OPENGL -lGL
 CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
 `pkg-config ../libs/json/lib/pkgconfig/json.pc --cflags --libs` \
@@ -12,7 +12,9 @@ CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
           ../rote-3/inject_csi.c ../rote-3/inject.c\
            ../rote-3/rote_keymap.c ../rote-3/rote.c \
            ../rote-3/wtf.c -lncurses \
-           -lutil
+           -lutil `python-config --cflags` `python-config --libs`\
+           -lboost_python-py27
+
 pl=$(shell uname)
 
 ifeq ($(pl),Linux)

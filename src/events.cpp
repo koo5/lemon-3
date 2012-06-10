@@ -82,7 +82,7 @@ void control(SDLKey key, int uni, int mod)
 		}
 		case SDLK_LEFT:
 		{
-			if (active)
+			//if (active)
 //			{
 //			    cam.focus(new v3d(active.t.x-1,active.t.y,active.t.z))
 			dirty = 1;
@@ -90,7 +90,7 @@ void control(SDLKey key, int uni, int mod)
 		}
 		case SDLK_RIGHT:
 		{
-			if (active) active->spin.z -= 0.03;
+			//if (active) active->spin.z -= 0.03;
 			dirty = 1;
 			break;
 		}

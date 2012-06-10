@@ -1,3 +1,5 @@
+
+
 struct obj;
 vector<obj *> objects;
 
@@ -69,3 +71,18 @@ struct obj
     ~obj(){if(active==this)active=0;}
 };
 unsigned int obj::idcounter=0;
+
+void erase(obj * o)
+{
+	if (active == o) active = 0;
+	for (unsigned int i = 0; i < objects.size(); i++)
+		if (objects.at(i) == o) objects.erase(objects.begin() + i);
+}
+void erase(int i)
+{
+	if (active == objects.at(i)) active = 0;
+	objects.erase(objects.begin() + i);
+}
+
+#define for_each_object for(unsigned int i=0;i<objects.size();i++) { obj*o=objects.at(i);
+#define endf }

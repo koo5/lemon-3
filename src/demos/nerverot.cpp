@@ -37,7 +37,7 @@
     	    }
     	    glPopMatrix();
         }
-	nerverot(float x=0,float y=0,float z=0,int b = -1)
+	nerverot(float x=0,float y=0,float z=0,int b = -2)
 	{
 	    nerv=nerverot_init(SDL_GetVideoSurface()->w,SDL_GetVideoSurface()->h);
 	    t.x=x;t.y=y;t.z=z;
