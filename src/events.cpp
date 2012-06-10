@@ -160,6 +160,9 @@ void process_event(SDL_Event event)
 			lastmousemoved = SDL_GetTicks();
 			mousejustmoved = 1;
 			break;
+//		case SDL_MOUSEWHEEL:
+//			event.wheel
+//			break;
 		case SDL_KEYDOWN:
 		{
 			SDLKey key= event.key.keysym.sym;

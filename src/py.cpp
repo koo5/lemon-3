@@ -1,4 +1,6 @@
 #ifdef py
+using namespace boost::python;
+
 
 void init_py()
 {
@@ -9,11 +11,30 @@ void baf()
 {
     printf("BAF\n");
 }
+/*
+class World
+{
+    
 
+};
+
+
+World world;
+
+void get_world()
+{
+    object get_iterator = std::iterator<std::vector<obj*> >();
+    object iter = get_iterator(world);
+    
+}
+*/
 BOOST_PYTHON_MODULE(lemon)
 {
-    boost::python::def("baf", baf);
-
+    def("baf", baf);
+    class_<Settingz>("settings")
+    .def_readwrite("line_antialiasing",&settingz.line_antialiasing);
+//    class_<World>("local")
+//    .def("__iter__", iterator<obj*>());
 }
 
 void greet()
@@ -26,7 +47,8 @@ void greet()
     boost::python::object result = boost::python::exec(
     "import lemon                   \n"
     "def greet():                   \n"
-    "  lemon.baf()                 \n"
+    "  lemon.baf()                  \n"
+    "  lemon.settings.line_antialiasing = True                 \n"
     "  return 'Hello from Python!'  \n",
     global, global);
 
@@ -49,5 +71,4 @@ void kill_py()
 	Py_Finalize();
 	
 }
-
 #endif
