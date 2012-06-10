@@ -504,37 +504,73 @@ void kill_v8()
 
 void init_py()
 {
-    Py_Initialize();
+    Py_InitializeEx(0);
+}
+
+void baf()
+{
+    printf("BAF\n");
+}
+
+//using namespace boost::python;
+
+BOOST_PYTHON_MODULE(lemon)
+{
+    boost::python::def("baf", baf);
 }
 
 void greet()
 { 
-  // Retrieve the main module.
+  initlemon();
   boost::python::object main = boost::python::import("__main__");
   
   // Retrieve the main module's namespace
   boost::python::object global(main.attr("__dict__"));
 
+
+  try
+  {
+
+
   // Define greet function in Python.
   boost::python::object result = boost::python::exec(
+  
+    "import lemon                   \n"
     "def greet():                   \n"
-    "   return 'Hello from Python!' \n",
+    "  lemon.baf()                 \n"
+    "  return 'Hello from Python!'  \n",
     global, global);
 
   // Create a reference to it.
   boost::python::object greet = global["greet"];
 
   // Call it.
-  std::string message = boost::python::extract<std::string>(greet());
-  std::cout << message << std::endl;
+	std::string message = boost::python::extract<std::string>(greet());
+	std::cout << message << std::endl;
+  }
+  catch (boost::python::error_already_set &e)
+  {
+	PyErr_Print();
+  }
+}
+
+void kill_py()
+{
+	/*Bugs and caveats: The destruction of modules and objects in modules is done in random order; this may cause destructors (__del__() methods) to fail when they depend on other objects (even functions) or modules. Dynamically loaded extension modules loaded by Python are not unloaded. Small amounts of memory allocated by the Python interpreter may not be freed (if you find a leak, please report it). Memory tied up in circular references between objects is not freed. Some memory allocated by extension modules may not be freed. Some extensions may not work properly if their initialization routine is called more than once; this can happen if an application calls Py_Initialize() and Py_Finalize() more than once.*/
+
+
+	Py_Finalize();
+	
 }
 
 
 int main(int argc, char *argv[])
 {
 	compute_data_file_paths();
-	
+	init_py();
+	greet();
 	lemon();
+	kill_py();
 	return 0;
 }
 

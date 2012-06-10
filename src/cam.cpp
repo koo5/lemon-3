@@ -64,7 +64,7 @@ public:
 			now.self.x = dst.self.x + (dst.self.x - src.self.x)*p;
 			now.self.y = dst.self.y + (dst.self.y - src.self.y)*p;
 			now.self.z = dst.self.z + (dst.self.z - src.self.z)*p;
-			printf("true\n");
+//			printf("true\n");
 		}
 		return true;
 	}
