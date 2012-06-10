@@ -1,6 +1,8 @@
 
 DEPS  =  ../rote-3/rote.c demos/* *.cpp *h *c ../*  ../demos/atlantis/* ../demos/nerverot/* ../libs/json/lib/libjson.so
+
 GLLIBS  =  -DGL -DHAVE_OPENGL -lGL
+
 CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
 `pkg-config ../libs/json/lib/pkgconfig/json.pc --cflags --libs` \
   -I/usr/local/include \
@@ -19,7 +21,8 @@ pl=$(shell uname)
 
 ifeq ($(pl),Linux)
 #PYLIBS = -Dpython `/usr/bin/python2.6-config --cflags`  `/usr/bin/python2.6-config --libs ` 
-CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` -lv8  
+CFLIBS += -DLINUX -pthread `sdl-config --libs --cflags` 
+#CFLIBS += -lv8  
 #`curl-config --libs` `curl-config --cflags` 
 GLLIBS += -lGL
 # -lSDL_ttf 

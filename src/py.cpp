@@ -48,7 +48,7 @@ void greet()
     "import lemon                   \n"
     "def greet():                   \n"
     "  lemon.baf()                  \n"
-    "  lemon.settings.line_antialiasing = True                 \n"
+    "#  lemon.settings.line_antialiasing = True                 \n"
     "  return 'Hello from Python!'  \n",
     global, global);
 

@@ -319,28 +319,22 @@ void lemon(void)
 	SDL_CreateThread(inpipe, (void*) 0);
 
 	cam.focus(active->t);
-//	cam.depart = SDL_GetTicks();
-//	cam.arrive = cam.depart + 2000;
 	while (!done)
 	{
 		SDL_TimerID x = 0;
 		lockterms();
 		k = SDL_GetKeyState(NULL);
 		
-		int cam_dirty;	
-		dirty |= cam_dirty = cam.set();
+		dirty |= cam.moving;
 
-		if ((dirty || anything_dirty()) 
-		&& (SDL_GetAppState() & SDL_APPACTIVE))
+		if ((dirty || anything_dirty()) && (SDL_GetAppState() & SDL_APPACTIVE))
 		{
-
+			cam.interpolate();
 			draw();
 			nothing_dirty();
+			if (dirty | anything_dirty()) x = SDL_AddTimer(5, TimerCallback, 0);
 			dirty=0;
-			if (cam_dirty || anything_dirty()) x = SDL_AddTimer(5, TimerCallback, 0);
 		}
-		else
-			lostphysics = 1;
 
 		unlockterms();
 		//logit("---------unlocked waiting\n");

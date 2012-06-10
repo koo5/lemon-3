@@ -15,6 +15,7 @@ void control(SDLKey key, int uni, int mod)
 		case SDLK_TAB:
 		case SDLK_PAGEDOWN:
 		case SDLK_PAGEUP:
+			dirty = 1;
 			if ((key==SDLK_PAGEUP) || (mod & (KMOD_RSHIFT|KMOD_LSHIFT)))
 			{
 			    for(int i=objects.size()-1;i>-1;i--) 
@@ -65,18 +66,17 @@ void control(SDLKey key, int uni, int mod)
 		case SDLK_t:
 			objects.push_back(active = new face(rightmost()->t.x + 2, 0, 0));
 			cam.focus(active->t);
+			dirty = 1;
 			break;
 		case SDLK_UP:
 		{
-			cam.dst.self.z++;
-			cam.move();
+			cam.self.move(v3d(cam.self.x,cam.self.y,cam.self.z+1));
 			dirty = 1;
 			break;
 		}
 		case SDLK_DOWN:
 		{
-			cam.dst.self.z--;
-			cam.move();
+			cam.self.move(v3d(cam.self.x,cam.self.y,cam.self.z+1));
 			dirty = 1;
 			break;
 		}
@@ -154,6 +154,7 @@ void control(SDLKey key, int uni, int mod)
 
 void process_event(SDL_Event event)
 {
+//	dirty = 1;
 	switch (event.type)
 	{
 		case SDL_MOUSEMOTION:

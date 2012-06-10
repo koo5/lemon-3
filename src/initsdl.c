@@ -78,6 +78,7 @@ SDL_Surface *initsdl(int *w,int *h,int *bppp,Uint32 flags)
 	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER, &value );
 	printf( "SDL_GL_DOUBLEBUFFER: requested 1, got %d\n", value );
 #endif
+#endif
 	
 	printf("mustlock=%i\n", SDL_MUSTLOCK(s));
 
@@ -90,7 +91,6 @@ SDL_Surface *initsdl(int *w,int *h,int *bppp,Uint32 flags)
 	    printf("Current SDL video driver is %s.\n",x);
     printf("%i x %i\n",*w,*h);
 	   
-#endif
 
 
 	return s;
