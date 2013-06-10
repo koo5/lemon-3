@@ -12,10 +12,11 @@ CFLIBS =  -D_REENTRANT -D_XTHREADS -DREENTRANT -DXTHREADS \
        -I/usr/include -I/usr/local/include -I./ \
         -I/usr/local/include/vte -lncurses -L/usr/X11R6/lib \
           ../rote-3/inject_csi.c ../rote-3/inject.c\
-           ../rote-3/rote_keymap.c ../rote-3/rote.c \
+           ../rote-3/rote_keymap.c  ../rote-3/rote.c \
            ../rote-3/wtf.c -lncurses \
-           -lutil `python-config --cflags` `python-config --libs`\
-           -lboost_python-py27
+           -lutil -lstdc++
+#`python-config --cflags` `python-config --libs`\
+#         -lboost_python-py27
 
 pl=$(shell uname)
 
@@ -37,7 +38,7 @@ CFLIBS += -DWINDOWS -I/usr/include/ncurses -I/usr/local/include/SDL -I/usr/inclu
 endif
 
                                                                        #-std=c++0x
-CC      =clang++ -v -v -v -std=c++11 -Woverflow -o $@ lemon.cpp -g -ggdb $(GLLIBS) $(CFLIBS)  -W -Wall -Wextra  -pedantic -ftrapv\
+CC      =clang++ -v -v  -Woverflow -o $@  -g -ggdb $(GLLIBS) $(CFLIBS) lemon.cpp -W -Wall -Wextra  -pedantic -ftrapv\
 	-Dnerve -lGLU  -lm -Wno-write-strings  -lXcomposite -lXdamage -lXfixes -lXrender -lX11 
 
 

@@ -1,10 +1,10 @@
-#include <boost/python.hpp>
+//#include <boost/python.hpp>
 #ifdef v8
 #include <v8.h>
 #endif
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+//OC#include <string.h>
 #include <math.h>
 #include "SDL.h"
 #include "SDL_events.h"
@@ -80,7 +80,7 @@ logger * loggerface;
 #include "gl.c"
 
 
-//#include <limits>
+#include <limits>
 
 void pick(int up, int button, int x, int y)
 {
@@ -426,8 +426,8 @@ void lemon(void)
 }
 
 #include "js.cpp"
-#define py
-#include "py.cpp"
+//#define py
+//#include "py.cpp"
 
 
 #include "getexecname.c"
@@ -443,10 +443,10 @@ void compute_data_file_paths()
 int main(int argc, char *argv[])
 {
 	compute_data_file_paths();
-	init_py();
-	greet();
+//	init_py();
+//	greet();
 	lemon();
-	kill_py();
+//	kill_py();
 	return 0;
 }
 
