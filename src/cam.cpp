@@ -71,8 +71,8 @@ public:
 
 	void focus(v3d f)
 	{	printf("focusing %lf %lf %lf\n", f.x,f.y,f.z);
-		look.move(f,600);
-		self.move(v3d(f.x,f.y,f.z-1.2),1700);
+		look.move(f,60);
+		self.move(v3d(f.x,f.y,f.z-1.2),50);
 	}
 
 };

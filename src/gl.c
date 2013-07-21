@@ -16,7 +16,7 @@ void viewmatrix()
 		    cam.look.x, cam.look.y, cam.look.z, 
 		    0, -1, 0);
 
-	plogit("gluLookAt(%lf, %lf, %lf, %lf, %lf, %lf", cam.self.x, cam.self.y, cam.self.z, cam.look.x, cam.look.y, cam.look.z);
+//	plogit("gluLookAt(%lf, %lf, %lf, %lf, %lf, %lf", cam.self.x, cam.self.y, cam.self.z, cam.look.x, cam.look.y, cam.look.z);
 }
 
 void resetmatrices(void)

@@ -45,6 +45,7 @@ void control(SDLKey key, int uni, int mod)
 			if (!active && objects.size()) objects.at(0)->activate();
 			break;
 		case SDLK_f:
+		case SDLK_F11:
 			if (mod & KMOD_RSHIFT)
 			{
 				if (dynamic_cast<face*>(active))
@@ -107,7 +108,7 @@ void control(SDLKey key, int uni, int mod)
 			 break;
 			 }
 			 */
-		case SDLK_F11:
+		case SDLK_F5:
 			if (active)
 			{
 				active->s.x = active->s.x * 0.95;
@@ -115,7 +116,7 @@ void control(SDLKey key, int uni, int mod)
 				dirty = 1;
 			}
 			break;
-		case SDLK_F12:
+		case SDLK_F6:
 			if (active)
 			{
 				active->s.x = active->s.x * 1.05;

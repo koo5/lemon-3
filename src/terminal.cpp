@@ -104,7 +104,7 @@ struct terminal:public obj
     	    rote_vt_resize(t, t->rows+yy,t->cols+xx);
 //    	    if (fontnum == 1)
     		//crash me baby one more time
-    		rote_vt_clear(t);
+//    		rote_vt_clear(t);
 	    last_resize=SDL_GetTicks();
 	    printstatus("%i x %i", t->rows, t->cols);
 	}
