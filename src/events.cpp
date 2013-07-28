@@ -71,13 +71,13 @@ void control(SDLKey key, int uni, int mod)
 			break;
 		case SDLK_UP:
 		{
-			cam.self.move(v3d(cam.self.x,cam.self.y,cam.self.z+1));
+//			cam.self.move(v3d(cam.self.dst.x,cam.self.dst.y,cam.self.dst.z+1));
 			dirty = 1;
 			break;
 		}
 		case SDLK_DOWN:
 		{
-			cam.self.move(v3d(cam.self.x,cam.self.y,cam.self.z+1));
+//			cam.self.move(v3d(cam.self.dst.x,cam.self.dst.y,cam.self.dst.z-1));
 			dirty = 1;
 			break;
 		}
