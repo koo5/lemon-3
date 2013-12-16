@@ -59,7 +59,7 @@ public:
 
 	camera()
 	{	
-		self.set(0,0,-10);
+		self.set(0,0,-1.001);
 		look.set(0,0,0);
 	}
 	
@@ -72,7 +72,7 @@ public:
 	void focus(v3d f)
 	{	printf("focusing %lf %lf %lf\n", f.x,f.y,f.z);
 		look.move(f,60);
-		self.move(v3d(f.x,f.y,f.z-1.2),50);
+		self.move(v3d(f.x,f.y,f.z-1.001),50);
 	}
 
 };
