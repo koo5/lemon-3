@@ -6,6 +6,7 @@
  */
 
 
+const int use_rsuper = 1;
 
 
 void control(SDLKey key, int uni, int mod)
@@ -144,7 +145,12 @@ void control(SDLKey key, int uni, int mod)
 			settingz.givehelp = !settingz.givehelp;
 			break;
 		case SDLK_RCTRL:
-			escaped = 1;
+			if (!use_rsuper)
+				escaped = 1;
+			break;
+		case SDLK_RSUPER:
+			if (use_rsuper)
+				escaped = 1;
 			break;
 		default:
 		{
@@ -165,15 +171,22 @@ void process_event(SDL_Event event)
 //		case SDL_MOUSEWHEEL:
 //			event.wheel
 //			break;
+		case SDL_KEYUP:
+			if (use_rsuper && (event.key.keysym.sym == SDLK_RSUPER))
+				escaped = 0;
+			break;
 		case SDL_KEYDOWN:
 		{
 			SDLKey key= event.key.keysym.sym;
 			int uni = event.key.keysym.unicode;
 			int mod = event.key.keysym.mod;
+		
+			logit("key %d uni %d mod %x", key, uni, mod);
 
-			if (escaped || (mod & KMOD_RCTRL) || (key == SDLK_RCTRL))
+			if ((!use_rsuper && (escaped || (mod & KMOD_RCTRL) || (key == SDLK_RCTRL)))
+				||(use_rsuper &&(escaped || (key == SDLK_RSUPER))))
 			{
-				escaped = 0;
+				if (!use_rsuper)escaped = 0;
 				control(key, uni, mod);
 			}
 			else
