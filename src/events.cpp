@@ -6,10 +6,11 @@
  */
 
 
-const int use_rsuper = 1;
+const int super_key = SDLK_MENU;//SDLK_RCTRL, SDLK_RMETA
+int pre_escaped = 0;
+int escape_used = 1;
 
-
-void control(SDLKey key, int uni, int mod)
+int control(SDLKey key, int uni, int mod)
 {
 	switch (key)
 	{
@@ -144,19 +145,10 @@ void control(SDLKey key, int uni, int mod)
 		case SDLK_h:
 			settingz.givehelp = !settingz.givehelp;
 			break;
-		case SDLK_RCTRL:
-			if (!use_rsuper)
-				escaped = 1;
-			break;
-		case SDLK_RSUPER:
-			if (use_rsuper)
-				escaped = 1;
-			break;
 		default:
-		{
-			if (active) active->keyp(key, uni, mod | KMOD_RCTRL); //escaped
-		}
+			return 0;
 	}
+	return 1;
 }
 
 void process_event(SDL_Event event)
@@ -172,8 +164,12 @@ void process_event(SDL_Event event)
 //			event.wheel
 //			break;
 		case SDL_KEYUP:
-			if (use_rsuper && (event.key.keysym.sym == SDLK_RSUPER))
+			if (event.key.keysym.sym == super_key)
+			{
 				escaped = 0;
+				if (!escape_used)
+					pre_escaped = 1;
+			}
 			break;
 		case SDL_KEYDOWN:
 		{
@@ -183,14 +179,20 @@ void process_event(SDL_Event event)
 		
 			logit("key %d uni %d mod %x", key, uni, mod);
 
-			if ((!use_rsuper && (escaped || (mod & KMOD_RCTRL) || (key == SDLK_RCTRL)))
-				||(use_rsuper &&(escaped || (key == SDLK_RSUPER))))
+			if (key == super_key)
 			{
-				if (!use_rsuper)escaped = 0;
-				control(key, uni, mod);
+				escaped = 1;
+				escape_used = 0;
+			}
+			else if (escaped || pre_escaped)
+			{
+				if (!control(key, uni, mod))
+					if (active) active->keyp(key, uni, mod, 1);
+				escape_used = 1;
+				pre_escaped = 0;
 			}
 			else
-				if (active) active->keyp(key, uni, mod);
+				if (active) active->keyp(key, uni, mod, 0);
 			break;
 		}
 		case SDL_QUIT:

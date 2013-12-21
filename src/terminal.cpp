@@ -162,7 +162,7 @@ struct terminal:public obj
 	    free(s);
 	}
     }
-    void keyp(int key,int uni,int mod)
+    void keyp(int key,int uni,int mod, int esc)
     {
     	if((mod&KMOD_RSHIFT)&&(key==SDLK_INSERT))
     	{
@@ -171,7 +171,7 @@ struct terminal:public obj
     	    else
 		clipin(0,1);  //selection buffer
 	}
-	else if(mod&KMOD_RCTRL)
+	else if(esc)
 	{	
 	    Uint8*k = SDL_GetKeyState(0);
 	    switch(key)

@@ -64,9 +64,9 @@ struct obj
 	r.y += spin.y*t;
 	r.z += spin.z*t;
     }
-    virtual void keyp(int key,int uni,int mod)
+    virtual void keyp(int key,int uni,int mod, int esc=0)
     {                                      
-	logit("default keyp handler, %i %i %i",key,uni,mod);
+	logit("default keyp handler, %i %i %i %i",key,uni,mod,esc);
     }
     ~obj(){if(active==this)active=0;}
 };
